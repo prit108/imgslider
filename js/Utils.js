@@ -30,8 +30,6 @@ $(document).ready(function() {
 	
 	document.getElementById('help').addEventListener('click', function(event) {
 		
-		window.open('https://github.com/justc0de/imagepuzzle/wiki/How-to-play');
-		
 	}, false);
 	
 	$('#gameContent').on('click', '#grid td', function(e) {

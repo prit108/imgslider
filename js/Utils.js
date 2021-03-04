@@ -170,8 +170,7 @@ var ImagePuzzle_Utils = {
 	//Get the time difference between two javascript date objects
 	//Returns a string containing the time.
 	diffBetweenTimes: function(beginTime, endTime){
-		var timeTaken = new Date(endTime.getTime() - beginTime.getTime());
-		
+		var timeTaken = endTime - beginTime;
 	 	return ImagePuzzle_Utils.formatTime(timeTaken);
 	},
 	
@@ -179,34 +178,39 @@ var ImagePuzzle_Utils = {
 		var timeTakenString = "";
 		
 		// calc hours
-		/*if ((timeTaken.getHours() - 1) < 1)	
-			timeTakenString += '00:';
-		else if((timeTaken.getHours() - 1) >= 0 && (timeTaken.getHours() - 1) < 10)
-			timeTakenString += '0' + (timeTaken.getHours() - 1).toString() + ':';
-		else
-			timeTakenString += (timeTaken.getHours() - 1).toString() + ':';*/
-		
+		// if ((timeTaken.getHours() - 1) < 1)	
+		// 	timeTakenString += '00:';
+		// else if((timeTaken.getHours() - 1) >= 0 && (timeTaken.getHours() - 1) < 10)
+		// 	timeTakenString += '0' + (timeTaken.getHours() - 1).toString() + ':';
+		// else
+		// 	timeTakenString += (timeTaken.getHours() - 1).toString() + ':';
+
 		// calc minutes
-		if (timeTaken.getMinutes() < 1)
-			timeTakenString += '00:';
-		else if(timeTaken.getMinutes() >= 0 && timeTaken.getMinutes() < 10)
-			timeTakenString += '0' + timeTaken.getMinutes().toString() + ':';
+		var minutes  = Math.floor(timeTaken/60000);
+		if (minutes < 1)
+			timeTakenString += "00:";
+		else if(minutes >= 0 && minutes < 10)
+			timeTakenString += "0" + minutes.toString() + ":";
 		else
-			timeTakenString += timeTaken.getMinutes().toString() + ':';
+			timeTakenString += minutes.toString() + ":";
+
+		timeTaken -= minutes*60000;
 		
 		//calc seconds
-		if (timeTaken.getSeconds() < 1)
-			timeTakenString += '00.';
-		else if(timeTaken.getSeconds() >= 0 && timeTaken.getSeconds() < 10)
-			timeTakenString += '0' + timeTaken.getSeconds().toString() + '.';
+		var seconds = Math.floor(timeTaken/1000);
+		if (seconds < 1)
+			timeTakenString += "00.";
+		else if(seconds >= 0 && seconds < 10)
+			timeTakenString += "0" + seconds.toString() + ".";
 		else
-			timeTakenString += timeTaken.getSeconds().toString() + '.';
-			
+			timeTakenString += seconds.toString() + ".";
+	
+		timeTaken -= seconds*1000;
 		//calc decisecond
-		if (parseInt(timeTaken.getMilliseconds().toString()[0]) < 1)
-			timeTakenString += '0';
+		if (parseInt(timeTaken.toString()[0]) < 1)
+			timeTakenString += "0";
 		else
-			timeTakenString += timeTaken.getMilliseconds().toString()[0];
+			timeTakenString += timeTaken.toString()[0];
 
 
 	 	return timeTakenString;

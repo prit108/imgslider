@@ -7,3 +7,6 @@ The project aims to implement a [sliding puzzle](https://en.wikipedia.org/wiki/S
 * JavaScript
 * CSS
 * jQuery (Mobile)
+
+### Play here:
+https://prit108.github.io/imgslider/

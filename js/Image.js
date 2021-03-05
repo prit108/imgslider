@@ -25,7 +25,8 @@ var ImagePuzzle_ImageActions = {
 			
 			callback(img);
 		};
-	
+
+		document.getElementById("refImgSrc").src = imgsrc;
 		img.src	 = imgsrc;
 	},
  

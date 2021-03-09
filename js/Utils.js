@@ -1,3 +1,7 @@
+function get1DIndex(x,y,rowCount) {
+	return (y*rowCount + x);
+};
+
 $(document).ready(function() {
 	
 	$('#imageSelection').children('li').bind('click', function(e) {
@@ -16,6 +20,9 @@ $(document).ready(function() {
 	document.getElementById('submit').addEventListener('click', function(event) {
 		
 		ImagePuzzle_Game.init();
+		//state = ImagePuzzle_Game.getInitState();
+		console.log("-THis is utils.");
+		//console.log(ImagePuzzle_Utils.initstate);
 		
 	}, false);
 	
@@ -39,19 +46,26 @@ $(document).ready(function() {
 		
 		var empty = $("#blankCell").get(0);
 		if (!empty || this == empty) return; // abort, abort!
-	
+		
+		console.log("in swap.");
+		//console.log(ImagePuzzle_Utils.initstate);
+
 	    var currow = this.parentNode,
 	        emptyrow = empty.parentNode;
 	    var cx = this.cellIndex,
 	        cy = currow.rowIndex,
 	        ex = empty.cellIndex,
 	        ey = emptyrow.rowIndex;
+
 	    if (cx==ex && Math.abs(cy-ey)==1 || cy==ey && Math.abs(cx-ex)==1) {
 	        // empty and this are next to each other in the grid
 	        var afterempty = empty.nextSibling,
 	            afterthis = this.nextSibling;
 	        currow.insertBefore(empty, afterthis); 
 	        emptyrow.insertBefore(this, afterempty);
+
+			[ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)], ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)]] = [ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)],ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)]];
+			console.log(ImagePuzzle_Utils.initstate);
 			
 	        ImagePuzzle_Utils.noOfMoves++;
 	
@@ -108,6 +122,7 @@ var ImagePuzzle_Utils = {
 	notificationIntervalId: null,
 	puzzlesSolved: 0,
 	noOfMoves: 0,
+	initstate: new Array(),
 	
 	loadChooseUI: function(){
 		

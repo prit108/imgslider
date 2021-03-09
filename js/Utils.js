@@ -1,3 +1,4 @@
+
 function get1DIndex(x,y,rowCount) {
 	return (y*rowCount + x);
 };
@@ -14,6 +15,7 @@ $(document).ready(function() {
 		$('#gameContainer').attr('style', 'display:none');
 		$('#chooseContainer').attr('style', 'display:inline');
 		$('#moveCount').html('0');
+		$('#retraceCount').html('0');
 		clearInterval(ImagePuzzle_Game.timerIntervalId);
 	});
 	
@@ -66,7 +68,15 @@ $(document).ready(function() {
 
 			[ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)], ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)]] = [ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)],ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)]];
 			console.log(ImagePuzzle_Utils.initstate);
-			
+
+			var str = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate);
+
+			if(ImagePuzzle_Utils.checkInMap(str)){
+				ImagePuzzle_Utils.retracedMoves++;
+				ImagePuzzle_Utils.updateText('retraceCount', ImagePuzzle_Utils.retracedMoves);
+			}
+			console.log(str);
+
 	        ImagePuzzle_Utils.noOfMoves++;
 	
 			//play the move sound
@@ -123,6 +133,8 @@ var ImagePuzzle_Utils = {
 	puzzlesSolved: 0,
 	noOfMoves: 0,
 	initstate: new Array(),
+	retracedMoves : 0,
+	stateMap :  new Map(),
 	
 	loadChooseUI: function(){
 		
@@ -251,5 +263,21 @@ var ImagePuzzle_Utils = {
 			    }
 			}]
 		});
+	},
+
+	statetoString : function(state){
+		var temp = "";
+		for(var i = 0; i< state.length; i++){
+			temp += state[i].toString() + '_';
+		}
+
+		return temp;
+	},
+
+	checkInMap : function(str){
+		if(ImagePuzzle_Utils.stateMap.has(str)) return true;
+		
+		ImagePuzzle_Utils.stateMap.set(str,1);
+		return false;
 	}
 };

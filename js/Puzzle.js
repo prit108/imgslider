@@ -15,7 +15,6 @@ var ImagePuzzle_Game = {
 	state: new Array(),
 	
 	init: function(){
-		console.log("THis is Puzzle.");
 		
 		ImagePuzzle_Game.imgsrc = document.getElementById('imageTextfield').value.replace("preview", "stock");
 		ImagePuzzle_Game.rowCount = $('#gridSize :radio:checked').val();
@@ -37,8 +36,6 @@ var ImagePuzzle_Game = {
 						state.push(i);
 					}
 
-
-					console.log(state);
 					// tiles available for random selection 
 					var tilesAvailable = new Array(rowCount ^ 2);
 		
@@ -136,8 +133,6 @@ var ImagePuzzle_Game = {
 				[state[get1DIndex(ex,ey,rowCount)], state[get1DIndex(ex+1,ey,rowCount)]] = [state[get1DIndex(ex+1,ey,rowCount)], state[get1DIndex(ex,ey,rowCount)]];
 
 		    }
-
-			console.log(state);
 		    
 		    //swap cells
 		    var cell = $("#"+cellid).get(0),
@@ -273,6 +268,8 @@ var ImagePuzzle_Game = {
 			let str = ImagePuzzle_Utils.statetoString(state);
 			ImagePuzzle_Utils.stateMap.set(str,1);
 			ImagePuzzle_Utils.initstate = state;
+
+			console.log("Initial State : ");
 			console.log(ImagePuzzle_Utils.initstate);
 	    };
 	},

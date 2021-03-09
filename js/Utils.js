@@ -19,12 +19,8 @@ $(document).ready(function() {
 		clearInterval(ImagePuzzle_Game.timerIntervalId);
 	});
 	
-	document.getElementById('submit').addEventListener('click', function(event) {
-		
+	document.getElementById('submit').addEventListener('click', function(event) {		
 		ImagePuzzle_Game.init();
-		//state = ImagePuzzle_Game.getInitState();
-		console.log("-THis is utils.");
-		//console.log(ImagePuzzle_Utils.initstate);
 		
 	}, false);
 	
@@ -49,7 +45,7 @@ $(document).ready(function() {
 		var empty = $("#blankCell").get(0);
 		if (!empty || this == empty) return; // abort, abort!
 		
-		console.log("in swap.");
+		console.log("New state after move : ");
 		//console.log(ImagePuzzle_Utils.initstate);
 
 	    var currow = this.parentNode,
@@ -75,7 +71,7 @@ $(document).ready(function() {
 				ImagePuzzle_Utils.retracedMoves++;
 				ImagePuzzle_Utils.updateText('retraceCount', ImagePuzzle_Utils.retracedMoves);
 			}
-			console.log(str);
+			// console.log(str);
 
 	        ImagePuzzle_Utils.noOfMoves++;
 	

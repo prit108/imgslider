@@ -1,3 +1,4 @@
+
 function get1DIndex(x,y,rowCount) {
 	return (y*rowCount + x);
 };
@@ -14,15 +15,12 @@ $(document).ready(function() {
 		$('#gameContainer').attr('style', 'display:none');
 		$('#chooseContainer').attr('style', 'display:inline');
 		$('#moveCount').html('0');
+		$('#retraceCount').html('0');
 		clearInterval(ImagePuzzle_Game.timerIntervalId);
 	});
 	
-	document.getElementById('submit').addEventListener('click', function(event) {
-		
+	document.getElementById('submit').addEventListener('click', function(event) {		
 		ImagePuzzle_Game.init();
-		//state = ImagePuzzle_Game.getInitState();
-		console.log("-THis is utils.");
-		//console.log(ImagePuzzle_Utils.initstate);
 		
 	}, false);
 	
@@ -47,7 +45,7 @@ $(document).ready(function() {
 		var empty = $("#blankCell").get(0);
 		if (!empty || this == empty) return; // abort, abort!
 		
-		console.log("in swap.");
+		console.log("New state after move : ");
 		//console.log(ImagePuzzle_Utils.initstate);
 
 	    var currow = this.parentNode,
@@ -66,7 +64,15 @@ $(document).ready(function() {
 
 			[ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)], ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)]] = [ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)],ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)]];
 			console.log(ImagePuzzle_Utils.initstate);
-			
+
+			var str = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate);
+
+			if(ImagePuzzle_Utils.checkInMap(str)){
+				ImagePuzzle_Utils.retracedMoves++;
+				ImagePuzzle_Utils.updateText('retraceCount', ImagePuzzle_Utils.retracedMoves);
+			}
+			// console.log(str);
+
 	        ImagePuzzle_Utils.noOfMoves++;
 	
 			//play the move sound
@@ -123,6 +129,8 @@ var ImagePuzzle_Utils = {
 	puzzlesSolved: 0,
 	noOfMoves: 0,
 	initstate: new Array(),
+	retracedMoves : 0,
+	stateMap :  new Map(),
 	
 	loadChooseUI: function(){
 		
@@ -251,5 +259,21 @@ var ImagePuzzle_Utils = {
 			    }
 			}]
 		});
+	},
+
+	statetoString : function(state){
+		var temp = "";
+		for(var i = 0; i< state.length; i++){
+			temp += state[i].toString() + '_';
+		}
+
+		return temp;
+	},
+
+	checkInMap : function(str){
+		if(ImagePuzzle_Utils.stateMap.has(str)) return true;
+		
+		ImagePuzzle_Utils.stateMap.set(str,1);
+		return false;
 	}
 };

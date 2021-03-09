@@ -15,7 +15,6 @@ var ImagePuzzle_Game = {
 	state: new Array(),
 	
 	init: function(){
-		console.log("THis is Puzzle.");
 		
 		ImagePuzzle_Game.imgsrc = document.getElementById('imageTextfield').value.replace("preview", "stock");
 		ImagePuzzle_Game.rowCount = $('#gridSize :radio:checked').val();
@@ -31,10 +30,12 @@ var ImagePuzzle_Game = {
 				ImagePuzzle_ImageActions.resize(loadedImage, function(imageResizedOnCanvas){
 					
 					var canvasReady = ImagePuzzle_ImageActions.split(imageResizedOnCanvas, rowCount * rowCount);
+
+					state = [];
 					for(var i = 0; i < canvasReady.length; i++) {
 						state.push(i);
 					}
-					console.log(state);
+
 					// tiles available for random selection 
 					var tilesAvailable = new Array(rowCount ^ 2);
 		
@@ -89,8 +90,10 @@ var ImagePuzzle_Game = {
 					}
 		
 					ImagePuzzle_Utils.noOfMoves = 0;
+					ImagePuzzle_Utils.retracedMoves = 0;
 					ImagePuzzle_Game.timerIntervalId = setInterval(ImagePuzzle_Utils.initTimer, 100);
 					ImagePuzzle_Game.target = ImagePuzzle_Game.rowCount * ImagePuzzle_Game.rowCount;
+					ImagePuzzle_Utils.stateMap.clear();
 					
 					jumblePuzzle(rowCount, state);
 		
@@ -130,8 +133,6 @@ var ImagePuzzle_Game = {
 				[state[get1DIndex(ex,ey,rowCount)], state[get1DIndex(ex+1,ey,rowCount)]] = [state[get1DIndex(ex+1,ey,rowCount)], state[get1DIndex(ex,ey,rowCount)]];
 
 		    }
-
-			console.log(state);
 		    
 		    //swap cells
 		    var cell = $("#"+cellid).get(0),
@@ -263,7 +264,12 @@ var ImagePuzzle_Game = {
 			    prevDir = randDir; 
 			    moveEmptyCell(ex,ey,randDir,rowCount,state);
 			}
+
+			let str = ImagePuzzle_Utils.statetoString(state);
+			ImagePuzzle_Utils.stateMap.set(str,1);
 			ImagePuzzle_Utils.initstate = state;
+
+			console.log("Initial State : ");
 			console.log(ImagePuzzle_Utils.initstate);
 	    };
 	},

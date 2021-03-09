@@ -1,3 +1,4 @@
+//var state = new Array();
 var ImagePuzzle_Game = {
 		
 	blankRow: 0,
@@ -11,8 +12,10 @@ var ImagePuzzle_Game = {
 	move_snd: new Audio("sounds/move1.wav"),
 	shuffle_snd: new Audio("sounds/shuffle1.wav"),
 	win_snd: new Audio("sounds/success1.wav"),
+	state: new Array(),
 	
 	init: function(){
+		console.log("THis is Puzzle.");
 		
 		ImagePuzzle_Game.imgsrc = document.getElementById('imageTextfield').value.replace("preview", "stock");
 		ImagePuzzle_Game.rowCount = $('#gridSize :radio:checked').val();
@@ -20,15 +23,18 @@ var ImagePuzzle_Game = {
 		$('#chooseContainer').attr('style', 'display:none');
 		$('#gameContainer').attr('style', 'display:inline');	
 		
-	    newGame(ImagePuzzle_Game.imgsrc, ImagePuzzle_Game.rowCount);
+	    newGame(ImagePuzzle_Game.imgsrc, ImagePuzzle_Game.rowCount, ImagePuzzle_Game.state);
 
-	    function newGame(imgsrc, rowCount){
+	    function newGame(imgsrc, rowCount, state){
 			ImagePuzzle_ImageActions.loadImage(imgsrc, function(loadedImage){
 				
 				ImagePuzzle_ImageActions.resize(loadedImage, function(imageResizedOnCanvas){
 					
 					var canvasReady = ImagePuzzle_ImageActions.split(imageResizedOnCanvas, rowCount * rowCount);
-			
+					for(var i = 0; i < canvasReady.length; i++) {
+						state.push(i);
+					}
+					console.log(state);
 					// tiles available for random selection 
 					var tilesAvailable = new Array(rowCount ^ 2);
 		
@@ -86,37 +92,46 @@ var ImagePuzzle_Game = {
 					ImagePuzzle_Game.timerIntervalId = setInterval(ImagePuzzle_Utils.initTimer, 100);
 					ImagePuzzle_Game.target = ImagePuzzle_Game.rowCount * ImagePuzzle_Game.rowCount;
 					
-					jumblePuzzle(rowCount);
+					jumblePuzzle(rowCount, state);
 		
 					return false;
 				});
 			});
 	    };
-	    
-	    
+
+		function get1DIndex(x,y,rowCount) {
+			return (y*rowCount + x);
+		};
 	    
 	    //Description: Moves the empty cell with a cell in a specified direction
 	    //Paramaters: empty cellIndex, empty rowIndex, direction to move
-	    function moveEmptyCell(ex,ey,direction){
+	    function moveEmptyCell(ex,ey,direction,rowCount,state){
 	    	
 	    	var cellid = "";	  
 	        
 		    if(direction == 'u'){ //up
 		    
 		    	cellid =document.getElementById("row"+(ey-1)).childNodes[ex].id;
+				[state[get1DIndex(ex,ey,rowCount)], state[get1DIndex(ex,ey-1,rowCount)]] = [state[get1DIndex(ex,ey-1,rowCount)], state[get1DIndex(ex,ey,rowCount)]];
 		    
 		    } else if (direction == 'd'){ //down
 		    
-		    	cellid  =document.getElementById("row"+(ey+1)).childNodes[ex].id;
+		    	cellid =document.getElementById("row"+(ey+1)).childNodes[ex].id;
+				[state[get1DIndex(ex,ey,rowCount)], state[get1DIndex(ex,ey+1,rowCount)]] = [state[get1DIndex(ex,ey+1,rowCount)], state[get1DIndex(ex,ey,rowCount)]];
 		    
 		    } else if (direction == 'l'){ //left
 		    
 		    	cellid =document.getElementById("row"+ey).childNodes[ex-1].id;
+				[state[get1DIndex(ex,ey,rowCount)], state[get1DIndex(ex-1,ey,rowCount)]] = [state[get1DIndex(ex-1,ey,rowCount)], state[get1DIndex(ex,ey,rowCount)]];
 		    
 		    } else{ //right
 		    
 		    	cellid =document.getElementById("row"+ey).childNodes[ex+1].id;
+				[state[get1DIndex(ex,ey,rowCount)], state[get1DIndex(ex+1,ey,rowCount)]] = [state[get1DIndex(ex+1,ey,rowCount)], state[get1DIndex(ex,ey,rowCount)]];
+
 		    }
+
+			console.log(state);
 		    
 		    //swap cells
 		    var cell = $("#"+cellid).get(0),
@@ -126,7 +141,7 @@ var ImagePuzzle_Game = {
 		        afterempty = empty.nextSibling,
 		        afterthis = cell.nextSibling;
 		        currow.insertBefore(empty, afterthis); 
-		        emptyrow.insertBefore(cell, afterempty);
+		        emptyrow.insertBefore(cell, afterempty);	
 	    };
 	    
 	    
@@ -216,7 +231,7 @@ var ImagePuzzle_Game = {
 	    //Description: Jumbles the puzzle to a random but solvable state
 	    //Paramaters: rowCount: The number or rows which is equal to the number
 	    //         of columns
-	    function jumblePuzzle(rowCount){
+	    function jumblePuzzle(rowCount,state){
 	    	
 	    	var prevDir = null;
 		
@@ -246,8 +261,10 @@ var ImagePuzzle_Game = {
 			      
 			    var randDir = ImagePuzzle_Utils.randomChoice(dirs);
 			    prevDir = randDir; 
-			    moveEmptyCell(ex,ey,randDir);
+			    moveEmptyCell(ex,ey,randDir,rowCount,state);
 			}
+			ImagePuzzle_Utils.initstate = state;
+			console.log(ImagePuzzle_Utils.initstate);
 	    };
-	}
+	},
 }

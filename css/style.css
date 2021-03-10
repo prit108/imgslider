@@ -37,3 +37,8 @@
         width: 1.875em;
     }
 }
+
+
+#restart{
+    display : none;
+}

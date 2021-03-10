@@ -20,11 +20,14 @@ var ImagePuzzle_Game = {
 		ImagePuzzle_Game.rowCount = $('#gridSize :radio:checked').val();
 		
 		$('#chooseContainer').attr('style', 'display:none');
-		$('#gameContainer').attr('style', 'display:inline');	
+		$('#gameContainer').attr('style', 'display:inline');
+		$('#restart').attr('style', 'display:block');	
 		
-	    newGame(ImagePuzzle_Game.imgsrc, ImagePuzzle_Game.rowCount, ImagePuzzle_Game.state);
+		newGame(ImagePuzzle_Game.imgsrc, ImagePuzzle_Game.rowCount, ImagePuzzle_Game.state);
+		
 
 	    function newGame(imgsrc, rowCount, state){
+
 			ImagePuzzle_ImageActions.loadImage(imgsrc, function(loadedImage){
 				
 				ImagePuzzle_ImageActions.resize(loadedImage, function(imageResizedOnCanvas){

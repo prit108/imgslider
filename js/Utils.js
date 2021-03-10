@@ -30,7 +30,12 @@ $(document).ready(function() {
 		$('#gameContainer').attr('style', 'display:none');
 		$('#chooseContainer').attr('style', 'display:inline');
 		$('#moveCount').html('0');
+		$('#restart').attr('style', 'display:none');
 		
+	}, false);
+
+	document.getElementById('restart').addEventListener('click', function(event){
+		$('#restart').attr('style', 'display:none');
 	}, false);
 	
 	document.getElementById('help').addEventListener('click', function(event) {

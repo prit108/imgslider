@@ -31,6 +31,7 @@ $(document).ready(function() {
 		$('#chooseContainer').attr('style', 'display:inline');
 		$('#moveCount').html('0');
 		$('#restart').attr('style', 'display:none');
+		$('#retraceCount').html('0');
 		
 	}, false);
 

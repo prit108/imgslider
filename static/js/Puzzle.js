@@ -274,6 +274,7 @@ var ImagePuzzle_Game = {
 
 			console.log("Initial State : ");
 			console.log(ImagePuzzle_Utils.initstate);
+			ImagePuzzle_Utils.JSON_write(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate));
 	    };
 	},
 }

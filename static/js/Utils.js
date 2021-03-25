@@ -68,9 +68,11 @@ $(document).ready(function() {
 	        emptyrow.insertBefore(this, afterempty);
 
 			[ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)], ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)]] = [ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)],ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)]];
-			console.log(ImagePuzzle_Utils.initstate);
+			//console.log(ImagePuzzle_Utils.initstate);
+			
 
 			var str = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate);
+			
 
 			if(ImagePuzzle_Utils.checkInMap(str)){
 				ImagePuzzle_Utils.retracedMoves++;
@@ -280,5 +282,22 @@ var ImagePuzzle_Utils = {
 		
 		ImagePuzzle_Utils.stateMap.set(str,1);
 		return false;
+	},
+
+	JSON_write : function(str){
+		var obj = {
+			init_state : []
+		};
+		obj.init_state.push({str});
+
+		var json = JSON.stringify(obj);
+
+		var fs = require('fs');
+
+		fs.writeFile('state.json', json, 'utf8', function (err){
+				if (err) throw err;
+				console.log('complete');
+		});
+
 	}
 };

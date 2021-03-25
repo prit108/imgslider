@@ -3,13 +3,13 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="lib/jquery.mobile-1.4.5.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <script src="lib/jquery-1.10.2.min.js"></script>
-        <script src="lib/jquery.mobile-1.4.5.min.js"></script>
-        <script src="js/Utils.js"></script>
-        <script src="js/Image.js"></script>
-        <script src="js/Puzzle.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'lib/jquery.mobile-1.4.5.min.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'css/style.css')}}" />
+        <script src="{{url_for('static', filename = 'lib/jquery-1.10.2.min.js')}}"></script>
+        <script src="{{url_for('static', filename = 'lib/jquery.mobile-1.4.5.min.js')}}"></script>
+        <script src="{{url_for('static', filename = 'js/Utils.js')}}"></script>
+        <script src="{{url_for('static', filename = 'js/Image.js')}}"></script>
+        <script src="{{url_for('static', filename = 'js/Puzzle.js')}}"></script>
     </head>
     
     <body>
@@ -43,49 +43,49 @@
 					<ul id="imageSelection" data-role="listview" data-inset="true">
 					    <li data-icon="false">
 					    	<a href="#">
-					        	<img src="images/preview/scattered_moai.jpg" />
+					        	<img src="{{url_for('static', filename = 'images/preview/scattered_moai.jpg')}}" />
 					    		<h2>Scattered Moai</h2>
 					    	</a>
 					    </li>
 					    <li data-icon="false">
 					    	<a href="#">
-						        <img src="images/preview/denmark.jpg" />
+						        <img src="{{url_for('static', filename = 'images/preview/denmark.jpg')}}" />
 						    	<h2>Denmark</h2>
 					    	</a>
 					    </li>
 					    <li data-icon="false">
 					    	<a href="#">
-					        	<img src="images/preview/thailand.jpg" />
+					        	<img src="{{url_for('static', filename = '/images/preview/thailand.jpg')}}" />
 					    		<h2>Thailand</h2>
 					    	</a>
 					    </li>
 					    <li data-icon="false">
 					    	<a href="#">
-					        	<img src="images/preview/looking_at_sunset.jpg" />
+					        	<img src="{{url_for('static', filename = 'images/preview/looking_at_sunset.jpg')}}" />
 					    		<h2>Sunset</h2>
 					    	</a>
 					    </li>
 					    <li data-icon="false">
 					    	<a href="#">
-					        	<img src="images/preview/in_the_park.jpg" />
+					        	<img src="{{url_for('static', filename = 'images/preview/in_the_park.jpg')}}" />
 					    		<h2>Park</h2>
 					    	</a>
 					    </li>
 					    <li data-icon="false">
 					    	<a href="#">
-					        	<img src="images/preview/morning_magic.jpg" />
+					        	<img src="{{url_for('static', filename = 'images/preview/morning_magic.jpg')}}" />
 					    		<h2>Morning</h2>
 					    	</a>
 					    </li>
 					    <li data-icon="false">
 					    	<a href="#">
-					        	<img src="images/preview/tauranga_bridge.jpg" />
+					        	<img src="{{url_for('static', filename = 'images/preview/tauranga_bridge.jpg')}}" />
 					    		<h2>Tauranga bridge</h2>
 					    	</a>
 					    </li>
 					    <li data-icon="false">
 					    	<a href="#">
-					        	<img src="images/preview/pink_forest.jpg" />
+					        	<img src="{{url_for('static', filename = 'images/preview/pink_forest.jpg')}}" />
 					    		<h2>Pink forest</h2>
 					    	</a>
 					    </li>
@@ -93,7 +93,7 @@
 	
 	                <div id="pieceSelection" class="centerHorizontally">
 	                    <div id="imageInput" data-role="fieldcontain">
-	                        <input data-theme="a" type="text" id="imageTextfield" name="image" value="images/preview/tauranga_bridge.jpg" title="Paste an image URL e.g http://server.com/path/to/image.jpg" />
+	                        <input data-theme="a" type="text" id="imageTextfield" name="image" placeholder="Add Custom Image (URL)" title="Paste an image URL e.g http://server.com/path/to/image.jpg" />
 	                    </div>
 
 						<form  class="centerHorizontally">

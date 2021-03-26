@@ -271,7 +271,12 @@ var ImagePuzzle_Utils = {
 	statetoString : function(state){
 		var temp = "";
 		for(var i = 0; i< state.length; i++){
-			temp += state[i].toString() + '_';
+			if(state[i] == state.length-1){
+				temp += '_';
+			}
+			else temp += state[i].toString();
+			if(i == state.length -1) continue;
+			else temp += '#';
 		}
 
 		return temp;

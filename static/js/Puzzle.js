@@ -273,8 +273,7 @@ var ImagePuzzle_Game = {
 			ImagePuzzle_Utils.stateMap.set(str,1);
 			ImagePuzzle_Utils.initstate = state;
 
-			console.log("Initial State : ");
-			console.log(ImagePuzzle_Utils.initstate);
+			console.log("Initial State : ", ImagePuzzle_Utils.initstate);
 
 			$.ajax({
 				type: "POST",

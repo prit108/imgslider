@@ -274,9 +274,7 @@ var ImagePuzzle_Utils = {
 			if(state[i] == state.length-1){
 				temp += '_';
 			}
-			else temp += state[i].toString();
-			if(i == state.length -1) continue;
-			else temp += '#';
+			else temp += (state[i] + 1).toString();
 		}
 
 		return temp;

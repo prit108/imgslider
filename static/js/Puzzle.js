@@ -13,6 +13,7 @@ var ImagePuzzle_Game = {
 	shuffle_snd: new Audio("sounds/shuffle1.wav"),
 	win_snd: new Audio("sounds/success1.wav"),
 	state: new Array(),
+	solnArray : new Array(),
 	
 	init: function(){
 		
@@ -281,8 +282,13 @@ var ImagePuzzle_Game = {
 				url: "/getInitState",
 				traditional: "true",
 				data: JSON.stringify(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate)),
-				dataType: "json"
+				dataType: "json",
+				success: function (data) {
+					solnArray = data;
+					console.log("Solution Array :", solnArray);
+					}
 				});
-	    };
+		};
+		
 	},
 }

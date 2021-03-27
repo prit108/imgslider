@@ -271,7 +271,10 @@ var ImagePuzzle_Utils = {
 	statetoString : function(state){
 		var temp = "";
 		for(var i = 0; i< state.length; i++){
-			temp += state[i].toString() + '_';
+			if(state[i] == state.length-1){
+				temp += '_';
+			}
+			else temp += (state[i] + 1).toString();
 		}
 
 		return temp;
@@ -284,20 +287,4 @@ var ImagePuzzle_Utils = {
 		return false;
 	},
 
-	JSON_write : function(str){
-		var obj = {
-			init_state : []
-		};
-		obj.init_state.push({str});
-
-		var json = JSON.stringify(obj);
-
-		var fs = require('fs');
-
-		fs.writeFile('state.json', json, 'utf8', function (err){
-				if (err) throw err;
-				console.log('complete');
-		});
-
-	}
 };

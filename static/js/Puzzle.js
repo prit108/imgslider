@@ -13,6 +13,7 @@ var ImagePuzzle_Game = {
 	shuffle_snd: new Audio("sounds/shuffle1.wav"),
 	win_snd: new Audio("sounds/success1.wav"),
 	state: new Array(),
+	solnArray : new Array(),
 	
 	init: function(){
 		
@@ -103,7 +104,8 @@ var ImagePuzzle_Game = {
 					return false;
 				});
 			});
-	    };
+		};
+
 
 		function get1DIndex(x,y,rowCount) {
 			return (y*rowCount + x);
@@ -272,9 +274,21 @@ var ImagePuzzle_Game = {
 			ImagePuzzle_Utils.stateMap.set(str,1);
 			ImagePuzzle_Utils.initstate = state;
 
-			console.log("Initial State : ");
-			console.log(ImagePuzzle_Utils.initstate);
-			ImagePuzzle_Utils.JSON_write(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate));
-	    };
+			console.log("Initial State : ", ImagePuzzle_Utils.initstate);
+
+			$.ajax({
+				type: "POST",
+				contentType: "application/json;charset=utf-8",
+				url: "/getInitState",
+				traditional: "true",
+				data: JSON.stringify(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate)),
+				dataType: "json",
+				success: function (data) {
+					solnArray = data;
+					console.log("Solution Array :", solnArray);
+					}
+				});
+		};
+		
 	},
 }

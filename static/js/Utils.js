@@ -31,7 +31,6 @@ $(document).ready(function() {
 		$('#chooseContainer').attr('style', 'display:inline');
 		$('#moveCount').html('0');
 		$('#restart').attr('style', 'display:none');
-		
 	}, false);
 
 	document.getElementById('restart').addEventListener('click', function(event){
@@ -40,6 +39,37 @@ $(document).ready(function() {
 	
 	document.getElementById('help').addEventListener('click', function(event) {
 		
+	}, false);
+
+	document.getElementById('autosolve').addEventListener('click', function(event){
+		arr = ImagePuzzle_Game.solnArray;
+		var blank_index = new Array();
+		/*var initstring = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate);
+		console.log("Initial string : ", initstring);
+		for(var j = 0; j < initstring.length; j++){
+			if(initstring[j] == '_') {
+				blank_index.push(j);
+			}
+		}*/
+		for(var i = 0; i < arr.length; i++) {
+			for(var j = 0; j < arr[i].length; j++){
+				if(arr[i][j] == '_') {
+					blank_index.push(j);
+				}
+			}
+		}
+		var becalled;
+		var cx, cy;
+		for(var i = 0; i < arr.length - 1; i++) {
+			//setTimeout(() => {  console.log("Waiting"+i); }, 2000);
+
+			becalled = blank_index[i+1];
+			cy = becalled%ImagePuzzle_Game.rowCount;
+			cx = Math.floor(becalled/ImagePuzzle_Game.rowCount);
+			console.log("Becalled : ", becalled);
+			console.log("Current X,Y : ", cx,cy);
+			$('#grid tr:eq(' + cx + ') td:eq(' + cy + ')').trigger('click');
+		}
 	}, false);
 	
 	$('#gameContent').on('click', '#grid td', function(e) {
@@ -59,6 +89,8 @@ $(document).ready(function() {
 	        cy = currow.rowIndex,
 	        ex = empty.cellIndex,
 	        ey = emptyrow.rowIndex;
+		
+		console.log("Click X,y", cx, cy);
 
 	    if (cx==ex && Math.abs(cy-ey)==1 || cy==ey && Math.abs(cx-ex)==1) {
 	        // empty and this are next to each other in the grid

@@ -284,10 +284,12 @@ var ImagePuzzle_Game = {
 				data: JSON.stringify(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate)),
 				dataType: "json",
 				success: function (data) {
-					solnArray = data;
-					console.log("Solution Array :", solnArray);
+					ImagePuzzle_Game.solnArray = data;
+					console.log("Solution Array :", ImagePuzzle_Game.solnArray);
 					}
 				});
+
+			$('#autosolve').attr('style', 'display:block');
 		};
 		
 	},

@@ -42,3 +42,8 @@
 #restart{
     display : none;
 }
+
+#autosolve {
+    display : none;
+    margin-right: 100px;
+}

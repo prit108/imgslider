@@ -3,6 +3,12 @@ function get1DIndex(x,y,rowCount) {
 	return (y*rowCount + x);
 };
 
+function called(){
+	console.log("I was called");
+}
+
+const timer = ms => new Promise(res => setTimeout(res, ms))
+
 $(document).ready(function() {
 	
 	$('#imageSelection').children('li').bind('click', function(e) {
@@ -41,16 +47,12 @@ $(document).ready(function() {
 		
 	}, false);
 
-	document.getElementById('autosolve').addEventListener('click', function(event){
+
+	// For the Heuristic Algorithm Solving :)
+	document.getElementById('autosolve').addEventListener('click', async function(event){
 		arr = ImagePuzzle_Game.solnArray;
 		var blank_index = new Array();
-		/*var initstring = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate);
-		console.log("Initial string : ", initstring);
-		for(var j = 0; j < initstring.length; j++){
-			if(initstring[j] == '_') {
-				blank_index.push(j);
-			}
-		}*/
+
 		for(var i = 0; i < arr.length; i++) {
 			for(var j = 0; j < arr[i].length; j++){
 				if(arr[i][j] == '_') {
@@ -61,14 +63,15 @@ $(document).ready(function() {
 		var becalled;
 		var cx, cy;
 		for(var i = 0; i < arr.length - 1; i++) {
-			//setTimeout(() => {  console.log("Waiting"+i); }, 2000);
-
+	
 			becalled = blank_index[i+1];
 			cy = becalled%ImagePuzzle_Game.rowCount;
 			cx = Math.floor(becalled/ImagePuzzle_Game.rowCount);
-			console.log("Becalled : ", becalled);
-			console.log("Current X,Y : ", cx,cy);
-			$('#grid tr:eq(' + cx + ') td:eq(' + cy + ')').trigger('click');
+			// console.log("Becalled : ", becalled);
+			// console.log("Current X,Y : ", cx,cy);
+	
+			$('#grid tr:eq(' + cx + ') td:eq(' + cy + ')').click();
+			await timer(1000); // Delay for 1000 ms
 		}
 	}, false);
 	
@@ -80,7 +83,7 @@ $(document).ready(function() {
 		var empty = $("#blankCell").get(0);
 		if (!empty || this == empty) return; // abort, abort!
 		
-		console.log("New state after move : ");
+		// console.log("New state after move : ");
 		//console.log(ImagePuzzle_Utils.initstate);
 
 	    var currow = this.parentNode,
@@ -90,7 +93,7 @@ $(document).ready(function() {
 	        ex = empty.cellIndex,
 	        ey = emptyrow.rowIndex;
 		
-		console.log("Click X,y", cx, cy);
+		console.log("X,Y Clicked! : ", cx, cy);
 
 	    if (cx==ex && Math.abs(cy-ey)==1 || cy==ey && Math.abs(cx-ex)==1) {
 	        // empty and this are next to each other in the grid
@@ -115,9 +118,9 @@ $(document).ready(function() {
 	        ImagePuzzle_Utils.noOfMoves++;
 	
 			//play the move sound
-			if($('#mute').val() === 'off'){
-				ImagePuzzle_Game.move_snd.play();
-			}
+			// if($('#mute').val() === 'off'){
+			// 	ImagePuzzle_Game.move_snd.play();
+			// }
 	
 			ImagePuzzle_Utils.updateText('moveCount', ImagePuzzle_Utils.noOfMoves);
 	    }

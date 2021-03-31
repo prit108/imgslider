@@ -12,16 +12,19 @@ These instructions will get you a copy of the project up and running on your loc
 ```bash
 python -m pip
 ```
+
 - Install and create a virtual environment
 ```bash
 pip install virtualenv
 python -m venv venv
 ```
+
 - Install other requirements inside the virtual environment
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
 ### Starting the server
 Run the server with:
 ```bash
@@ -37,6 +40,6 @@ The game can be played at [](https://imgslider.herokuapp.com/)
 
 ✔️ The app also includes an A* search solver for 3x3 puzzles that can autosolve any given configuration in optimum number of moves using a heuristic approach.
 
-✔️ Coming Soon :
-      ⚡ Algorithmic Solvers for other sizes.
+✔️ Coming Soon : 
+      ⚡ Algorithmic Solvers for other sizes. 
       ⚡ Using Neural Nets for these puzzles.

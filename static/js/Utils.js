@@ -83,7 +83,7 @@ $(document).ready(function() {
 		var empty = $("#blankCell").get(0);
 		if (!empty || this == empty) return; // abort, abort!
 		
-		// console.log("New state after move : ");
+		console.log("New state after move : ");
 		//console.log(ImagePuzzle_Utils.initstate);
 
 	    var currow = this.parentNode,
@@ -103,7 +103,7 @@ $(document).ready(function() {
 	        emptyrow.insertBefore(this, afterempty);
 
 			[ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)], ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)]] = [ImagePuzzle_Utils.initstate[get1DIndex(ex,ey,ImagePuzzle_Game.rowCount)],ImagePuzzle_Utils.initstate[get1DIndex(cx,cy,ImagePuzzle_Game.rowCount)]];
-			//console.log(ImagePuzzle_Utils.initstate);
+			console.log(ImagePuzzle_Utils.initstate);
 			
 
 			var str = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate);
@@ -123,6 +123,19 @@ $(document).ready(function() {
 			// }
 	
 			ImagePuzzle_Utils.updateText('moveCount', ImagePuzzle_Utils.noOfMoves);
+
+			$.ajax({
+				type: "POST",
+				contentType: "application/json;charset=utf-8",
+				url: "/getInitState",
+				traditional: "true",
+				data: JSON.stringify(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate)),
+				dataType: "json",
+				success: function (data) {
+					ImagePuzzle_Game.solnArray = data;
+					console.log("Solution Array :", ImagePuzzle_Game.solnArray);
+					}
+				});
 	    }
 	    
 	    // Check if puzzle is complete after each move

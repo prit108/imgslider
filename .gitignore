@@ -12,7 +12,7 @@ venv/
 
 #Eclipse settings
 .project
-.settings/
+.settings
 
 # Binaries
 *.out

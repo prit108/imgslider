@@ -33,7 +33,7 @@ flask run
 The API server should be accessible at http://localhost:5000/.
 
 ## Play the Game 😁
-The game can be played at (https://imgslider.herokuapp.com/)
+The game can be played at https://imgslider.herokuapp.com/
 
 ## About 
 ✔️ This is a version of the well known Slider-Puzzle, with 2x2, 3x3, 4x4 and 5x5 variants. It has been developed for educational purposes to observe and map   problem solving patterns in human beings.

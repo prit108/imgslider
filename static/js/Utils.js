@@ -71,7 +71,7 @@ $(document).ready(function() {
 			// console.log("Current X,Y : ", cx,cy);
 	
 			$('#grid tr:eq(' + cx + ') td:eq(' + cy + ')').click();
-			await timer(1000); // Delay for 1000 ms
+			await timer(500); // Delay for 500 ms
 		}
 	}, false);
 	

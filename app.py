@@ -17,7 +17,7 @@ def index():
         age = request.form['age']
         gender = request.form['gender']
         profession = request.form['profession']
-
+        print(name,phone,address,age,gender,profession)
         return render_template('index.html')
         
 
@@ -34,7 +34,11 @@ def get_init_state():
         
         print(arr)
 
-        return jsonify(arr)     
+        return jsonify(arr)
+
+@app.route('/success')
+def success():
+    return render_template('success.html')     
 
 if __name__ == '__main__':
   app.run(debug=True, port=3000)

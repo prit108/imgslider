@@ -275,8 +275,10 @@ var ImagePuzzle_Game = {
 			ImagePuzzle_Utils.initstate = state;
 
 			console.log("Initial State : ", ImagePuzzle_Utils.initstate);
+			console.log("Row Count : ",rowCount);
 
-			$.ajax({
+			if(rowCount == 3){			
+				$.ajax({
 				type: "POST",
 				contentType: "application/json;charset=utf-8",
 				url: "/getInitState",
@@ -289,7 +291,8 @@ var ImagePuzzle_Game = {
 					}
 				});
 
-			$('#autosolve').attr('style', 'display:block');
+				$('#autosolve').attr('style', 'display:block');
+			}
 		};
 		
 	},

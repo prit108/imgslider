@@ -21,6 +21,10 @@ def index():
         return render_template('index.html')
         
 
+@app.route("/form")
+def form():
+    return render_template("form.html")
+
 @app.route('/getInitState', methods = ['GET', 'POST'])
 def get_init_state():
     if request.method == 'POST':
@@ -38,7 +42,7 @@ def get_init_state():
 
 @app.route('/success')
 def success():
-    return render_template('index.html')
+    return render_template('success.html')
          
 
 if __name__ == '__main__':

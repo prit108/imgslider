@@ -174,11 +174,15 @@ $(document).ready(function() {
 					// ImagePuzzle_Utils.updateText('puzzlesSolved', ImagePuzzle_Utils.puzzlesSolved);
 					
 					console.log("DONE!");
-					$.ajax({
-						type: 'GET',
-						url: "/success",
-					});
+					
+					// The below commented code wont work since browsers dont allow render after render
+
+					// $.ajax({
+					// 	type: 'GET',
+					// 	url: "/success",
+					// });
 					// $('#playAgainLink').click();
+					window.location.href = "/success"
 	    		}
 	    	}
 	    	

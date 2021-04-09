@@ -4,6 +4,8 @@ import tiles
 import tilesSearch
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
+moves = 0
+time = ""
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
@@ -40,9 +42,18 @@ def get_init_state():
 
         return jsonify(arr)
 
+@app.route('/getFinalVar', methods = ['POST'])
+def get_final_var():
+    req = request.get_json()
+    global moves 
+    moves = req['moves']
+    global time 
+    time = req['time']
+    return "Received"
+
 @app.route('/success')
 def success():
-    return render_template('success.html')
+    return render_template('success.html', moves = moves, time = time)
          
 
 if __name__ == '__main__':

@@ -182,6 +182,16 @@ $(document).ready(function() {
 					// 	url: "/success",
 					// });
 					// $('#playAgainLink').click();
+					
+					$.ajax({
+						type : 'POST',
+						url : '/getFinalVar',
+						contentType: "application/json;charset=utf-8",
+						traditional : true,
+						dataType : "json",
+						data : JSON.stringify({moves : ImagePuzzle_Utils.noOfMoves, time : ImagePuzzle_Utils.timetaken}),
+					});
+
 					window.location.href = "/success"
 	    		}
 	    	}

@@ -170,15 +170,13 @@ $(document).ready(function() {
 		            		ImagePuzzle_Utils.getStartTime(), 
 		            		endTime); 
 					
-					ImagePuzzle_Utils.puzzlesSolved++;
-					ImagePuzzle_Utils.updateText('puzzlesSolved', ImagePuzzle_Utils.puzzlesSolved);
+					// ImagePuzzle_Utils.puzzlesSolved++;
+					// ImagePuzzle_Utils.updateText('puzzlesSolved', ImagePuzzle_Utils.puzzlesSolved);
 					
+					console.log("DONE!");
 					$.ajax({
-						url: "/success",
 						type: 'GET',
-						success: function(res) {
-							console.log("Success");
-						}
+						url: "/success",
 					});
 					// $('#playAgainLink').click();
 	    		}

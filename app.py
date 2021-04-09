@@ -38,7 +38,8 @@ def get_init_state():
 
 @app.route('/success')
 def success():
-    return render_template('success.html')     
+    return render_template('index.html')
+         
 
 if __name__ == '__main__':
   app.run(debug=True, port=3000)

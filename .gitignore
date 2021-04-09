@@ -16,3 +16,6 @@ venv/
 
 # Binaries
 *.out
+
+#Config files
+db/config.py

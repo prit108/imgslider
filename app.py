@@ -2,10 +2,15 @@ from flask import Flask, render_template, url_for, request, jsonify
 import json
 import tiles
 import tilesSearch
+from db import helper, handler
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
+
+user_data = {}
 moves = 0
 time = ""
+retraced = 0
+dimension = 0
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
@@ -13,13 +18,15 @@ def index():
         return render_template('form.html')
     
     if request.method == 'POST':
-        name = request.form['name']
-        phone = request.form['phone']
-        address = request.form['address']
-        age = request.form['age']
-        gender = request.form['gender']
-        profession = request.form['profession']
-        print(name,phone,address,age,gender,profession)
+
+        data = helper._jsonifyData(request)        
+        
+        handler._insert(data)
+        
+        global user_data
+
+        user_data = data 
+        
         return render_template('index.html')
         
 
@@ -45,14 +52,21 @@ def get_init_state():
 @app.route('/getFinalVar', methods = ['POST'])
 def get_final_var():
     req = request.get_json()
-    global moves 
+    global moves, time, retraced, dimension
+
     moves = req['moves']
-    global time 
     time = req['time']
+    retraced = req['retraced']
+    dimension = req['dimension']
+    
     return "Received"
 
 @app.route('/success')
 def success():
+    global user_data, moves, time, retraced, dimension
+
+    handler._update(user_data, moves, time, retraced, dimension)
+
     return render_template('success.html', moves = moves, time = time)
          
 

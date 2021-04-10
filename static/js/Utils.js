@@ -189,13 +189,18 @@ $(document).ready(function() {
 						contentType: "application/json;charset=utf-8",
 						traditional : true,
 						dataType : "json",
-						data : JSON.stringify({moves : ImagePuzzle_Utils.noOfMoves, time : ImagePuzzle_Utils.timetaken}),
+						data : JSON.stringify({
+							                   moves : ImagePuzzle_Utils.noOfMoves, 
+							                   time : ImagePuzzle_Utils.timetaken, 
+											   retraced : ImagePuzzle_Utils.retracedMoves,
+											   dimension : ImagePuzzle_Game.rowCount
+											}),
 					});
 
 					window.location.href = "/success"
 	    		}
-	    	}
-	    	
+			}
+			
 	    	ImagePuzzle_Game.idCounter++;
 		});
 	});

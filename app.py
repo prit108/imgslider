@@ -1,8 +1,8 @@
 from flask import Flask, render_template, url_for, request, jsonify
 import json
-import tiles
-import tilesSearch
-from db import helper, handler
+from tiles import tiles
+from tiles import tilesSearch
+from data import helper
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
 
@@ -20,8 +20,6 @@ def index():
     if request.method == 'POST':
 
         data = helper._jsonifyData(request)        
-        
-        handler._insert(data)
         
         global user_data
 
@@ -64,8 +62,6 @@ def get_final_var():
 @app.route('/success')
 def success():
     global user_data, moves, time, retraced, dimension
-
-    handler._update(user_data, moves, time, retraced, dimension)
 
     return render_template('success.html', moves = moves, time = time)
          

@@ -3,8 +3,10 @@
 #  Search for sequence of moves to bring a randomized tile puzzle
 #  into order
 
-import sys, sarg, time
-from   tiles  import TileGame
+import sys, time
+from   tiles.tiles  import TileGame
+from tiles import sarg
+
 
 try:
     import Queue as Q  # python ver. < 3.0

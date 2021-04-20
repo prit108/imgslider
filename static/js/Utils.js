@@ -7,10 +7,14 @@ function called(){
 	console.log("I was called");
 }
 
+var onstate = 0;
+
 const timer = ms => new Promise(res => setTimeout(res, ms))
 
 $(document).ready(function() {
 	
+	onstate = 0;
+
 	$('#imageSelection').children('li').bind('click', function(e) {
 	    $('#imageTextfield').val($(this).children('a').children('img').attr('src'));
 	});
@@ -50,6 +54,7 @@ $(document).ready(function() {
 
 	// For the Heuristic Algorithm Solving :)
 	document.getElementById('autosolve').addEventListener('click', async function(event){
+		onstate = 1;
 		arr = ImagePuzzle_Game.solnArray;
 		var blank_index = new Array();
 
@@ -123,8 +128,8 @@ $(document).ready(function() {
 			// }
 	
 			ImagePuzzle_Utils.updateText('moveCount', ImagePuzzle_Utils.noOfMoves);
-
-			$.ajax({
+			if(onstate === 1){			
+				$.ajax({
 				type: "POST",
 				contentType: "application/json;charset=utf-8",
 				url: "/getInitState",
@@ -136,6 +141,7 @@ $(document).ready(function() {
 					console.log("Solution Array :", ImagePuzzle_Game.solnArray);
 					}
 				});
+			}
 	    }
 	    
 	    // Check if puzzle is complete after each move
@@ -164,13 +170,37 @@ $(document).ready(function() {
 		            		ImagePuzzle_Utils.getStartTime(), 
 		            		endTime); 
 					
-					ImagePuzzle_Utils.puzzlesSolved++;
-					ImagePuzzle_Utils.updateText('puzzlesSolved', ImagePuzzle_Utils.puzzlesSolved);
+					// ImagePuzzle_Utils.puzzlesSolved++;
+					// ImagePuzzle_Utils.updateText('puzzlesSolved', ImagePuzzle_Utils.puzzlesSolved);
 					
-					$('#playAgainLink').click();
+					console.log("DONE!");
+					
+					// The below commented code wont work since browsers dont allow render after render
+
+					// $.ajax({
+					// 	type: 'GET',
+					// 	url: "/success",
+					// });
+					// $('#playAgainLink').click();
+					
+					$.ajax({
+						type : 'POST',
+						url : '/getFinalVar',
+						contentType: "application/json;charset=utf-8",
+						traditional : true,
+						dataType : "json",
+						data : JSON.stringify({
+							                   moves : ImagePuzzle_Utils.noOfMoves, 
+							                   time : ImagePuzzle_Utils.timetaken, 
+											   retraced : ImagePuzzle_Utils.retracedMoves,
+											   dimension : ImagePuzzle_Game.rowCount
+											}),
+					});
+
+					window.location.href = "/success"
 	    		}
-	    	}
-	    	
+			}
+			
 	    	ImagePuzzle_Game.idCounter++;
 		});
 	});
@@ -186,6 +216,7 @@ var ImagePuzzle_Utils = {
 	initstate: new Array(),
 	retracedMoves : 0,
 	stateMap :  new Map(),
+	timetaken : null,
 	
 	loadChooseUI: function(){
 		
@@ -290,7 +321,7 @@ var ImagePuzzle_Utils = {
 		else
 			timeTakenString += timeTaken.toString()[0];
 
-
+		ImagePuzzle_Utils.timetaken = timeTakenString
 	 	return timeTakenString;
 	},
 	

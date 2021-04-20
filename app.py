@@ -2,12 +2,37 @@ from flask import Flask, render_template, url_for, request, jsonify
 import json
 import tiles
 import tilesSearch
+from db import helper, handler
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
 
-@app.route('/')
+user_data = {}
+moves = 0
+time = ""
+retraced = 0
+dimension = 0
+
+@app.route('/', methods = ['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    if request.method == 'GET':
+        return render_template('form.html')
+    
+    if request.method == 'POST':
+
+        data = helper._jsonifyData(request)        
+        
+        handler._insert(data)
+        
+        global user_data
+
+        user_data = data 
+        
+        return render_template('index.html')
+        
+
+@app.route("/form")
+def form():
+    return render_template("form.html")
 
 @app.route('/getInitState', methods = ['GET', 'POST'])
 def get_init_state():
@@ -22,7 +47,28 @@ def get_init_state():
         
         print(arr)
 
-        return jsonify(arr)     
+        return jsonify(arr)
+
+@app.route('/getFinalVar', methods = ['POST'])
+def get_final_var():
+    req = request.get_json()
+    global moves, time, retraced, dimension
+
+    moves = req['moves']
+    time = req['time']
+    retraced = req['retraced']
+    dimension = req['dimension']
+    
+    return "Received"
+
+@app.route('/success')
+def success():
+    global user_data, moves, time, retraced, dimension
+
+    handler._update(user_data, moves, time, retraced, dimension)
+
+    return render_template('success.html', moves = moves, time = time)
+         
 
 if __name__ == '__main__':
   app.run(debug=True, port=3000)

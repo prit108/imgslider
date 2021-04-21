@@ -24,6 +24,15 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+- Setup your database using firebase
+
+If you are not familiar about firebase kindly checkout their [official website](https://firebase.google.com) and [docs](https://firebase.google.com/docs).
+
+**Note:** Since we are using a python wrapper named _**pyrebase**_ you have to setup your own config.py file inside the **db** directory.
+Kindly checkout the [github repository](https://github.com/thisbejim/Pyrebase). 
+We have also added config.py.template file to help setting up the credentials. 
+
+If you don't want to do all this, just clone the code from the **algo** branch 🙂.
 
 ### Starting the server
 Run the server with:
@@ -33,7 +42,7 @@ flask run
 The API server should be accessible at http://localhost:5000/.
 
 ## Play the Game 😁
-The game can be played at https://imgslider.herokuapp.com/
+The game can be played [here](https://obscure-mesa-42520.herokuapp.com/)
 
 For older version (without Auto Solver) check out https://prit108.github.io/imgslider/
 

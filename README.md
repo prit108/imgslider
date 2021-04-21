@@ -30,7 +30,7 @@ If you are not familiar about firebase kindly checkout their [official website](
 
 Since we are using a python wrapper named _**pyrebase**_ you have to setup your own config.py file inside the **db** directory. Kindly checkout the [github repository](https://github.com/thisbejim/Pyrebase). We have also added ```config.py.template``` file to help setting up the credentials. 
 
-If you don't want to do all this, just clone the code from the **algo** branch 🙂.
+If you don't want to do all this, just clone the code from the **heuristic-algo** branch 🙂.
 
 ### Starting the server
 Run the server with:

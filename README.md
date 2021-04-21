@@ -24,7 +24,7 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-- Setup your database using firebase
+### Setup your database using firebase
 
 If you are not familiar about firebase kindly checkout their [official website](https://firebase.google.com) and [docs](https://firebase.google.com/docs).
 

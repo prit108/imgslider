@@ -276,23 +276,22 @@ var ImagePuzzle_Game = {
 
 			console.log("Initial State : ", ImagePuzzle_Utils.initstate);
 			console.log("Row Count : ",rowCount);
+		
+			$.ajax({
+			type: "POST",
+			contentType: "application/json;charset=utf-8",
+			url: "/getInitState",
+			traditional: "true",
+			data: JSON.stringify(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate)),
+			dataType: "json",
+			success: function (data) {
+				ImagePuzzle_Game.solnArray = data;
+				console.log("Solution Array :", ImagePuzzle_Game.solnArray);
+				}
+			});
 
-			if(rowCount == 3){			
-				$.ajax({
-				type: "POST",
-				contentType: "application/json;charset=utf-8",
-				url: "/getInitState",
-				traditional: "true",
-				data: JSON.stringify(ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate)),
-				dataType: "json",
-				success: function (data) {
-					ImagePuzzle_Game.solnArray = data;
-					console.log("Solution Array :", ImagePuzzle_Game.solnArray);
-					}
-				});
-
-				$('#autosolve').attr('style', 'display:block');
-			}
+			$('#autosolve').attr('style', 'display:block');
+			
 		};
 		
 	},

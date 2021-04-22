@@ -351,10 +351,11 @@ var ImagePuzzle_Utils = {
 		var temp = "";
 		for(var i = 0; i< state.length; i++){
 			if(state[i] == state.length-1){
-				temp += '_';
+				temp += "_#";
 			}
-			else temp += (state[i] + 1).toString();
+			else temp += (state[i] + 1).toString() + "#";
 		}
+		temp = temp.substr(0,temp.length - 1)
 
 		return temp;
 	},

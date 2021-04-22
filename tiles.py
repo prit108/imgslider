@@ -3,28 +3,37 @@
 import sys
 
 class TileGame :
-    def __init__ (self, sampleBoard) :
-        self.legalMoves = legalMoves3
-        self.goal       = "12345678_"
-        self.dim        = 3   
+    def __init__ (self, sampleBoard, rowCount) :
+        self.legalMoves = legalString(rowCount)
+        self.goal       = goalExpr(rowCount)
+        self.dim        = rowCount   
         self.makeManhatten()
 
     def getMoves(self, board) :
-        empty = board.find('_')
+        array = board.split('#')
+        empty = findEmpty(array)
         return empty, self.legalMoves[empty]
     
     def makeMove(self, board, empty, mov) :
-        lbrd = list(board)
+        lbrd = board.split('#')
         lbrd[empty],lbrd[mov] = lbrd[mov],lbrd[empty]
-        return "".join(lbrd)
+
+        temp = ""
+        for i in lbrd:
+            temp += i + "#"
+        return temp[0:len(temp)-1]
     
     def futureCost(self, board) :
         # estimate future cost by sum of tile displacements
         future = 0
         for sq in range(self.dim*self.dim):
-            occupant = board[sq]
+            array = board.split('#')
+            occupant = array[sq]
             if occupant != '_' :
-                shouldbe = self.goal.find(occupant)
+                # print("Occupant: ", occupant)
+                # print("Goal : ", self.goal)
+                shouldbe = findGoal(self.goal,occupant)
+                # print("Shouldbe : ",shouldbe)
                 future  += self.manTable[(sq,shouldbe)]
         return future
     
@@ -79,3 +88,35 @@ legalMoves4 = ( # for a 4x4 board
    (10,13,15),  # these can slide into square 14
    (11,14))     # these can slide into square 15
 
+def legalString(rowCount):
+    if rowCount is 3:
+        return ((1,3),(0,4,2),(1,5),(0,4,6),(1,3,5,7),(2,4,8),(3,7),(4,6,8),(5,7))
+
+    elif rowCount is 4:
+        return ((1,4),(0,5,2),(1,6,7),(2,7),(0,5,8),(1,4,6,9),(2,5,7,10),(3,6,11),(4,9,12),(5,8,10,13),(6,9,11,14),(7,10,15),(8,13),(9,12,14),(10,13,15),(11,14))
+
+def goalExpr(rowCount):
+    expr = ""
+
+    for i in range(1,rowCount*rowCount):
+        expr += str(i) + "#"
+    expr += "_"
+
+    return expr
+
+def findGoal(goal,occupant):
+    array = goal.split('#')
+    # print("Splitted Goal: ", array)
+    for itr in range(len(array)):
+        # print("Element: ", array[itr])
+        if array[itr] == occupant:
+            return itr
+    return -1
+
+def findEmpty(array):
+
+    for itr in range(len(array)):
+        if array[itr] == '_':
+            return itr
+    
+    return -1

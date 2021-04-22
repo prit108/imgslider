@@ -37,7 +37,7 @@ Run the server with:
 ```bash
 flask run
 ```
-The API server should be accessible at http://localhost:5000/.
+The server should be accessible at http://localhost:5000/.
 
 ## Play the Game 😁
 The game can be played [here](https://obscure-mesa-42520.herokuapp.com/)

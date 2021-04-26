@@ -49,6 +49,7 @@ def get_init_state():
                     max = int(itr)
 
         rowCount = math.sqrt(max + 1)
+        print(req)
         result = tilesSearch.search(tiles.TileGame(req, int(rowCount)),req,0)
         arr = []
 
@@ -68,7 +69,9 @@ def get_final_var():
     time = req['time']
     retraced = req['retraced']
     dimension = req['dimension']
-    
+    print("Moves",moves)
+    print("",time)
+    print("",retraced)
     return "Received"
 
 @app.route('/success')

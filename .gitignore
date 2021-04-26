@@ -6,6 +6,7 @@ env/
 venv/
 .env
 .venv
+virtual/
 
 #VS Code settings
 .vscode

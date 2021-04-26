@@ -7,6 +7,19 @@ function called(){
 	console.log("I was called");
 }
 
+function splitarray(arr,n) {
+	var new_arr = new Array(n);
+	for(var i = 0; i < n; i++) {
+		new_arr[i] = new Array();
+	}
+
+	for(var i = 0; i < n; i++) {
+		new_arr[i] = arr[i].split("#");
+	}
+
+	return new_arr;
+};
+
 var onstate = 0;
 
 const timer = ms => new Promise(res => setTimeout(res, ms))
@@ -55,9 +68,10 @@ $(document).ready(function() {
 	// For the Heuristic Algorithm Solving :)
 	document.getElementById('autosolve').addEventListener('click', async function(event){
 		onstate = 1;
-		arr = ImagePuzzle_Game.solnArray;
+		xarr = ImagePuzzle_Game.solnArray;
+		var arr = splitarray(xarr, xarr.length);
 		var blank_index = new Array();
-
+		console.log(arr);
 		for(var i = 0; i < arr.length; i++) {
 			for(var j = 0; j < arr[i].length; j++){
 				if(arr[i][j] == '_') {
@@ -128,7 +142,7 @@ $(document).ready(function() {
 			// }
 	
 			ImagePuzzle_Utils.updateText('moveCount', ImagePuzzle_Utils.noOfMoves);
-			if(onstate === 1){			
+			/*if(onstate === 1){			
 				$.ajax({
 				type: "POST",
 				contentType: "application/json;charset=utf-8",
@@ -141,7 +155,7 @@ $(document).ready(function() {
 					console.log("Solution Array :", ImagePuzzle_Game.solnArray);
 					}
 				});
-			}
+			}*/
 	    }
 	    
 	    // Check if puzzle is complete after each move

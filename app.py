@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, request, jsonify
 import json
+import math
 import tiles
 import tilesSearch
 from db import helper, handler
@@ -38,8 +39,17 @@ def form():
 def get_init_state():
     if request.method == 'POST':
         req =  request.get_json()
+        # print(req)
+        array = req.split('#')
+        max = -1
 
-        result = tilesSearch.search(tiles.TileGame(req),req,0)
+        for itr in array:
+            if itr is not "_":
+                if int(itr) > max:
+                    max = int(itr)
+
+        rowCount = math.sqrt(max + 1)
+        result = tilesSearch.search(tiles.TileGame(req, int(rowCount)),req,0)
         arr = []
 
         for i in result :

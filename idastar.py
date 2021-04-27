@@ -166,22 +166,80 @@ def slide_wd(n, goal):
     return h
 
 
+def stringify(board):
 
+    temp = ""
+    for itr in range(0,len(board)):
+        if board[itr] is 0:
+            temp += "_#"
+        else:
+            temp += str(board[itr]) + "#"
+
+    temp = temp[0:len(temp)-1]
+
+    return temp
+
+
+def finalArray(moves,board):
+
+    arr = []
+
+    board = list(board)
+    itr1 = 0
+    itr2 = 0
+
+    for itr in range(0,len(board)):
+        if board[itr] is 0:
+            itr1 = itr
+
+    temp = board
+    count = 0
+    arr.append(stringify(temp))
+
+    while count < len(moves):
+        for itr in range(0, len(temp)):
+            if temp[itr] is moves[count][0]:
+                itr2 = itr
+        
+        temp[itr1], temp[itr2] = temp[itr2], temp[itr1]
+        itr1 = itr2
+        arr.append(stringify(temp))
+        count = count + 1
+
+    print("Array")
+    print(arr)
+
+    return arr
+
+
+
+def play(board, dimension):
+
+    solved_state = slide_solved_state(dimension)
+    neighbours = slide_neighbours(dimension)
+    is_goal = lambda p: p == solved_state
+
+    slide_solver = IDAStar(slide_wd(dimension, solved_state), neighbours)
+
+    path, moves, cost, num_eval = slide_solver.solve(board, is_goal, 1000)
+    
+    return finalArray(moves,board)
 
 if __name__ == "__main__":
+
     solved_state = slide_solved_state(4)
     neighbours = slide_neighbours(4)
     is_goal = lambda p: p == solved_state
 
-    tests = [
+    # tests = [
         #(5,1,7,3,9,2,11,4,13,6,15,8,0,10,14,12),
         #(2,5,13,12,1,0,3,15,9,7,14,6,10,11,8,4),
         #(5,2,4,8,10,0,3,14,13,6,11,12,1,15,9,7),
         #(11,4,12,2,5,10,3,15,14,1,6,7,0,9,8,13),
         #(5,8,7,11,1,6,12,2,9,0,13,10,14,3,4,15),
         #(5,7,2,3,1,6,9,11,4,12,8,14,0,13,10,15),
-        (1,2,0,4,7,15,3,8,5,9,10,11,13,12,14,6)
-    ]
+        # (1,2,0,4,7,15,3,8,5,9,10,11,13,12,14,6)
+    # ]
 
     slide_solver = IDAStar(slide_wd(4, solved_state), neighbours)
 

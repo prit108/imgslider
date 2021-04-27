@@ -3,6 +3,7 @@ import json
 import math
 import tiles
 import tilesSearch
+import idastar
 from db import helper, handler
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
@@ -39,26 +40,56 @@ def form():
 def get_init_state():
     if request.method == 'POST':
         req =  request.get_json()
-        # print(req)
-        array = req.split('#')
+        print(req)
+
+
+        # Heuristic Algo v1
+            # array = req.split('#')
+            # max = -1
+
+            # for itr in array:
+            #     if itr is not "_":
+            #         if int(itr) > max:
+            #             max = int(itr)
+
+            # rowCount = math.sqrt(max + 1)
+            # print(req)
+            # result = tilesSearch.search(tiles.TileGame(req, int(rowCount)),req,0)
+            # arr = []
+
+            # for i in result :
+            #     arr.append(i[2])
+            
+            # print(arr)
+
+            # return jsonify(arr)
+
+        #IDAStar
+        array = req.split("#")
         max = -1
 
-        for itr in array:
-            if itr is not "_":
-                if int(itr) > max:
-                    max = int(itr)
-
-        rowCount = math.sqrt(max + 1)
-        print(req)
-        result = tilesSearch.search(tiles.TileGame(req, int(rowCount)),req,0)
-        arr = []
-
-        for i in result :
-            arr.append(i[2])
+        for itr in range(0,len(array)):
+            if array[itr] is not "_":
+                if int(array[itr]) > max:
+                    max = int(array[itr])
+            else:
+                array[itr] = "0"
         
-        print(arr)
+        # print("Array", array)
+        rowCount = math.sqrt(max + 1)
 
+        for itr in range(0, len(array)):
+            array[itr] = int(array[itr])
+
+        # print("Array", array)
+        arr = idastar.play(tuple(array),int(rowCount))
+
+        print("Solution Array : ", arr)    
         return jsonify(arr)
+
+
+
+        
 
 @app.route('/getFinalVar', methods = ['POST'])
 def get_final_var():

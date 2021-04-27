@@ -196,12 +196,12 @@ $(document).ready(function() {
 					// 	url: "/success",
 					// });
 					// $('#playAgainLink').click();
-					
+					console.log(ImagePuzzle_Utils.noOfMoves);
 					$.ajax({
 						type : 'POST',
 						url : '/getFinalVar',
 						contentType: "application/json;charset=utf-8",
-						traditional : true,
+						traditional : "true",
 						dataType : "json",
 						data : JSON.stringify({
 							                   moves : ImagePuzzle_Utils.noOfMoves, 
@@ -210,7 +210,7 @@ $(document).ready(function() {
 											   dimension : ImagePuzzle_Game.rowCount
 											}),
 					});
-
+					console.log("after the ajax request");
 					window.location.href = "/success"
 	    		}
 			}

@@ -49,6 +49,8 @@ For older version (without Auto Solver) check out https://prit108.github.io/imgs
 
 ✔️ The app also includes an A* search solver for 3x3 puzzles that can autosolve any given configuration in optimum number of moves using a heuristic approach.
 
+⚠️ Update: Iterative Deepening A* (IDA*) Algorithm is now implemented for 4x4. Update website link would soon be shared!
+
 ✔️ Coming Soon : 
       ⚡ Algorithmic Solvers for other sizes. 
       ⚡ Using Neural Nets for these puzzles.

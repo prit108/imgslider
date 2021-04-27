@@ -35,6 +35,7 @@ If you don't want to do all this, just clone the code from the **heuristic-algo*
 ### Starting the server
 Run the server with:
 ```bash
+export FLASK_APP=app
 flask run
 ```
 The server should be accessible at http://localhost:5000/.

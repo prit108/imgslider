@@ -90,7 +90,7 @@ $(document).ready(function() {
 			// console.log("Current X,Y : ", cx,cy);
 	
 			$('#grid tr:eq(' + cx + ') td:eq(' + cy + ')').click();
-			await timer(500); // Delay for 500 ms
+			await timer(50); // Delay for 50 ms
 		}
 	}, false);
 	

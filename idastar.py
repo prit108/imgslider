@@ -1,6 +1,7 @@
 import random
 
-
+logarr = []
+logfile = open("test.txt", "w")
 class IDAStar:
     def __init__(self, h, neighbours):
         """ Iterative-deepening A* search.
@@ -37,6 +38,7 @@ class IDAStar:
             bound = t
 
     def _search(self, g, bound):
+        global logarr, logfile
         self.nodes_evaluated += 1
 
         node = self.path[-1]
@@ -47,7 +49,8 @@ class IDAStar:
         m = None # Lower bound on cost.
         for cost, n, descr in self.neighbours(node):
             if n in self.is_in_path: continue
-
+            logfile.write(stringify(list(n)) + "\n")
+            logarr.append(stringify(list(n)))
             self.path.append(n)
             self.is_in_path.add(n)
             self.path_descrs.append(descr)
@@ -214,7 +217,7 @@ def finalArray(moves,board):
 
 
 def play(board, dimension):
-
+    global logarr, logfile
     solved_state = slide_solved_state(dimension)
     neighbours = slide_neighbours(dimension)
     is_goal = lambda p: p == solved_state
@@ -222,8 +225,8 @@ def play(board, dimension):
     slide_solver = IDAStar(slide_wd(dimension, solved_state), neighbours)
 
     path, moves, cost, num_eval = slide_solver.solve(board, is_goal, 1000)
-    
-    return finalArray(moves,board)
+    logfile.close()
+    return finalArray(moves,board), logarr
 
 if __name__ == "__main__":
 

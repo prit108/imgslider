@@ -82,10 +82,10 @@ def get_init_state():
             array[itr] = int(array[itr])
 
         # print("Array", array)
-        arr = idastar.play(tuple(array),int(rowCount))
+        arr, logarr = idastar.play(tuple(array),int(rowCount))
 
-        print("Solution Array : ", arr)    
-        return jsonify(arr)
+        print("Solution Array : ", logarr)    
+        return jsonify(logarr)
 
 
 

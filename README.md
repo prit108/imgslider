@@ -41,7 +41,7 @@ flask run
 The server should be accessible at http://localhost:5000/.
 
 ## Play the Game 😁
-The game can be played [here](https://imgsliderv2.herokuapp.com/)
+The game can be played at https://imgsliderv2.herokuapp.com/
 
 For older version (without Auto Solver) check out https://prit108.github.io/imgslider/
 
@@ -54,4 +54,4 @@ For older version (without Auto Solver) check out https://prit108.github.io/imgs
 
 ✔️ The app also includes an A* search solver for 3x3 puzzles that can autosolve any given configuration in optimum number of moves using a heuristic approach.
 
-✔️ **Coming Soon** : Using Neural Nets, a solver for these puzzles.
+⚠️ **Coming Soon** : Using Neural Nets, a solver for these puzzles.

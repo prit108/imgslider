@@ -47,6 +47,8 @@ For older version (without Auto Solver) check out https://prit108.github.io/imgs
 
 ⚠️ **Update**: The Auto solver now works on IDA* algorithm instead of the previous heuristic ones. For more details on IDA* check [this](https://en.wikipedia.org/wiki/Iterative_deepening_A*).
 
+⚠️ **Note**: For testing purposes, the current auto solver has been modified to incorporate all the configurations visited in IDA*. Further updates will soon be published.
+
 ## About 
 ✔️ This is a version of the well known Slider-Puzzle, with 2x2, 3x3, 4x4 and 5x5 variants. It has been developed for educational purposes to observe and map   problem solving patterns in human beings.
 

@@ -41,7 +41,7 @@ flask run
 The server should be accessible at http://localhost:5000/.
 
 ## Play the Game 😁
-The game can be played [here](https://obscure-mesa-42520.herokuapp.com/)
+The game can be played [here](https://imgsliderv2.herokuapp.com/)
 
 For older version (without Auto Solver) check out https://prit108.github.io/imgslider/
 

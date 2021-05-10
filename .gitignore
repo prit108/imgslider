@@ -17,5 +17,3 @@ virtual/
 
 # Binaries
 *.out
-
-db/config.py

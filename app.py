@@ -106,14 +106,12 @@ def get_final_var():
     print("Moves",moves)
     print("",time)
     print("",retraced)
+    handler._update(user_data, moves, time, retraced, dimension)
     return "Received"
 
 @app.route('/success')
 def success():
     global user_data, moves, time, retraced, dimension
-
-    handler._update(user_data, moves, time, retraced, dimension)
-
     return render_template('success.html', moves = moves, time = time)
          
 

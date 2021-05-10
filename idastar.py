@@ -1,5 +1,6 @@
 import random
 
+logarr = []
 
 class IDAStar:
     def __init__(self, h, neighbours):
@@ -17,11 +18,11 @@ class IDAStar:
         self.FOUND = object()
 
 
-    def solve(self, root, is_goal, max_cost=None):
+    def solve(self, root, is_goal, max_cost=None, file=None):
         """ Returns the shortest path between the root and a given goal, as well as the total cost.
         If the cost exceeds a given max_cost, the function returns None. If you do not give a
         maximum cost the solver will never return for unsolvable instances."""
-
+        global logarr
         self.is_goal = is_goal
         self.path = [root]
         self.is_in_path = {root}
@@ -30,31 +31,50 @@ class IDAStar:
 
         bound = self.h(root)
 
+        logarr.append(stringify(list(root)))
+        file.write(stringify(list(root)) + "\n")
+
         while True:
-            t = self._search(0, bound)
+            t = self._search(0, bound, file)
             if t is self.FOUND: return self.path, self.path_descrs, bound, self.nodes_evaluated
             if t is None: return None
             bound = t
 
-    def _search(self, g, bound):
+    def _search(self, g, bound, logfile):
+        global logarr
         self.nodes_evaluated += 1
-
+    
         node = self.path[-1]
         f = g + self.h(node)
+
+
         if f > bound: return f
         if self.is_goal(node): return self.FOUND
 
         m = None # Lower bound on cost.
         for cost, n, descr in self.neighbours(node):
-            if n in self.is_in_path: continue
+            if n in self.is_in_path: 
+                #logfile.write(stringify(list(n)) + "\n")
+                #logarr.append(stringify(list(n)))
+                continue
+
+            if(len(logarr) == 0 or logarr[len(logarr) -1] != stringify(list(n))) : 
+                logfile.write(stringify(list(n)) + "\n")
+                logarr.append(stringify(list(n)))
 
             self.path.append(n)
             self.is_in_path.add(n)
             self.path_descrs.append(descr)
-            t = self._search(g + cost, bound)
+            t = self._search(g + cost, bound, logfile)
 
             if t == self.FOUND: return self.FOUND
             if m is None or (t is not None and t < m): m = t
+
+            if(len(logarr) == 0 or logarr[len(logarr) -1] != stringify(list(n))) : 
+                logfile.write(stringify(list(n)) + "\n")
+                logarr.append(stringify(list(n)))
+            logfile.write(stringify(list(node)) + "\n")
+            logarr.append(stringify(list(node)))      
 
             self.path.pop()
             self.path_descrs.pop()
@@ -213,17 +233,18 @@ def finalArray(moves,board):
 
 
 
-def play(board, dimension):
-
+def play(board, dimension, file):
+    global logarr
+    logarr = []
     solved_state = slide_solved_state(dimension)
     neighbours = slide_neighbours(dimension)
     is_goal = lambda p: p == solved_state
 
     slide_solver = IDAStar(slide_wd(dimension, solved_state), neighbours)
 
-    path, moves, cost, num_eval = slide_solver.solve(board, is_goal, 1000)
-    
-    return finalArray(moves,board)
+    path, moves, cost, num_eval = slide_solver.solve(board, is_goal, 1000, file)
+
+    return finalArray(moves,board), logarr
 
 if __name__ == "__main__":
 

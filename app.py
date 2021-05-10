@@ -81,11 +81,14 @@ def get_init_state():
         for itr in range(0, len(array)):
             array[itr] = int(array[itr])
 
-        # print("Array", array)
-        arr = idastar.play(tuple(array),int(rowCount))
+        logfile = open("test.txt", "w")
 
-        print("Solution Array : ", arr)    
-        return jsonify(arr)
+        # print("Array", array)
+        arr, logarr = idastar.play(tuple(array),int(rowCount), logfile)
+
+        logfile.close()
+        print("Solution Array : ", logarr)    
+        return jsonify(logarr)
 
 
 

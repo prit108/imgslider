@@ -45,11 +45,11 @@ The game can be played [here](https://imgsliderv2.herokuapp.com/)
 
 For older version (without Auto Solver) check out https://prit108.github.io/imgslider/
 
+⚠️ **Update**: The Auto solver now works on IDA* algorithm instead of the previous heuristic ones. For more details on IDA* check [this](https://en.wikipedia.org/wiki/Iterative_deepening_A*).
+
 ## About 
 ✔️ This is a version of the well known Slider-Puzzle, with 2x2, 3x3, 4x4 and 5x5 variants. It has been developed for educational purposes to observe and map   problem solving patterns in human beings.
 
 ✔️ The app also includes an A* search solver for 3x3 puzzles that can autosolve any given configuration in optimum number of moves using a heuristic approach.
-
-⚠️ **Update**: Iterative Deepening A* (IDA*) Algorithm is now implemented for 4x4. Update website link would soon be shared!
 
 ✔️ **Coming Soon** : Using Neural Nets, a solver for these puzzles.

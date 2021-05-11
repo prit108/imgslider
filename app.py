@@ -97,7 +97,7 @@ def get_init_state():
 @app.route('/getFinalVar', methods = ['POST'])
 def get_final_var():
     req = request.get_json()
-    global moves, time, retraced, dimension
+    global user_data, moves, time, retraced, dimension
 
     moves = req['moves']
     time = req['time']
@@ -111,8 +111,7 @@ def get_final_var():
 
 @app.route('/success')
 def success():
-    global user_data, moves, time, retraced, dimension
-    return render_template('success.html', moves = moves, time = time)
+    return render_template('success.html')
          
 
 if __name__ == '__main__':

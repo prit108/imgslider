@@ -1,6 +1,7 @@
 from os import setgroups
 from queue import Queue
 import pygame
+import time
 #from tkinter import Tk, Canvas, Frame, BOTH
 
 pygame.init()
@@ -10,7 +11,11 @@ white = (255,255,255)
 red = (255,0,0)
 green = (0,255,0)
 size = 3
+ss = 5
+sc = 300
 frame = pygame.display.set_mode((dimX,dimY))
+pygame.display.update()
+clock = pygame.time.Clock()
 GOAL_CONFIG = [i for i in range(1,size*size)]
 GOAL_CONFIG.append(0)
 GOAL_CONFIG = tuple(GOAL_CONFIG)
@@ -202,13 +207,55 @@ class GameTree:
         #    self.show(parent.children[i], int(distance/2)-8,(start, height))
         #    start = start + distance
         #return
+        #for x in self.node_array:
+        #    color = white
+        #    if(x.config == GOAL_CONFIG): color = red
+        #    elif(x.config == sol_array[0]): color = green
+        #    pygame.draw.circle(frame,color,(x.location[0],x.location[1]),radii,0)
+        #    pygame.display.update()
+        #    for y in x.children: 
+        #        pygame.draw.line(frame,white,(x.location[0],x.location[1]),(y.location[0],y.location[1]),l_t)
+        #        pygame.display.update()
+        #    clock.tick(ss)
+
+        dic_config = {}
         for x in self.node_array:
+            dic_config[x.config] = x
+
+        showthese = []
+
+        for c in sol_array :
             color = white
-            if(x.config == GOAL_CONFIG): color = red
-            elif(x.config == sol_array[0]): color = green
-            x.circle = pygame.draw.circle(frame,color,(x.location[0],x.location[1]),radii,0)
-            for y in x.children: 
-                pygame.draw.line(frame,white,(x.location[0],x.location[1]),(y.location[0],y.location[1]),l_t)
+            if(c == GOAL_CONFIG): color = red
+            elif(c == sol_array[0]): color = green
+            x = dic_config[c]
+            if len(showthese) > 1 and showthese[len(showthese)-1].parent == x.config :
+                showthese.pop()
+            else :
+                showthese.append(x)
+            for p in self.node_array:
+                color = white
+                if(p.config == GOAL_CONFIG): color = red
+                elif(p.config == sol_array[0]): color = green
+                pygame.draw.circle(frame,color,(p.location[0],p.location[1]),radii,0)
+                pygame.display.update()
+                for y in p.children: 
+                    pygame.draw.line(frame,white,(p.location[0],p.location[1]),(y.location[0],y.location[1]),l_t)
+                    pygame.display.update()
+            
+            for y in showthese : 
+                color = (255,0,0)
+                pygame.draw.circle(frame,color,(y.location[0],y.location[1]),radii,0)
+                pygame.display.update()
+                for z in y.children :
+                    if z in showthese :
+                        pygame.draw.line(frame,color,(y.location[0],y.location[1]),(z.location[0],z.location[1]),l_t)
+                        pygame.display.update()
+                clock.tick(sc)
+            
+            pygame.draw.circle(frame,color,(x.location[0],x.location[1]),radii,0)
+            pygame.display.update()
+            clock.tick(ss)
         
         return
 

@@ -1,6 +1,12 @@
 from flask import Flask, render_template, url_for, request, jsonify
+from csv import writer
 import json
 import math
+import re
+import base64
+from PIL import Image
+import numpy as np
+import pandas as pd
 import tiles
 import tilesSearch
 import idastar
@@ -87,8 +93,8 @@ def get_init_state():
         arr, logarr = idastar.play(tuple(array),int(rowCount), logfile)
 
         logfile.close()
-        print("Solution Array : ", logarr)    
-        return jsonify(logarr)
+        print("Solution Array : ", arr)    
+        return jsonify(arr)
 
 
 
@@ -113,7 +119,62 @@ def get_final_var():
 def success():
     global user_data, moves, time, retraced, dimension
     return render_template('success.html', moves = moves, time = time)
-         
+
+
+@app.route('/getImageData', methods = ['POST'])
+def imageStitcher():
+    json_string = request.get_json()
+    req = json_string['images']
+    index = json_string['index']
+    label = json_string['label']    
+
+    for i in range(9):
+
+        imgstr = re.search(r'base64,(.*)', req[i]).group(1)
+        output = open('output' + str(i) + '.png', 'wb')
+        output.write(base64.b64decode(imgstr))
+        output.close()
+    
+    img1 = Image.open("output0.png").convert('RGB') 
+    img1 = np.array(img1)
+    img2 = Image.open("output1.png").convert('RGB') 
+    img2 = np.array(img2)
+    img3 = Image.open("output2.png").convert('RGB') 
+    img3 = np.array(img3)
+    img4 = Image.open("output3.png").convert('RGB') 
+    img4 = np.array(img4)
+    img5 = Image.open("output4.png").convert('RGB') 
+    img5 = np.array(img5)
+    img6 = Image.open("output5.png").convert('RGB') 
+    img6 = np.array(img6)
+    img7 = Image.open("output6.png").convert('RGB') 
+    img7 = np.array(img7)
+    img8 = Image.open("output7.png").convert('RGB') 
+    img8 = np.array(img8)
+    img9 = Image.open("output8.png").convert('RGB') 
+    img9 = np.array(img9)
+    print(img1.shape)
+
+    
+    #create image of imgg1 array
+    imgg1 = np.vstack([np.hstack([img1, img2, img3]) , np.hstack([img4, img5, img6]), np.hstack([img7, img8, img9])]) 
+    finalimg1 = Image.fromarray(imgg1)
+    #provide the path with name for finalimg1 where you want to save it
+    finalimg1.save("images/" + "walkin" + str(index) + ".jpeg")
+
+    data = ["images/" + "walkin" + str(index) + ".jpeg", label]
+
+    with open('sliding_puzzle_data.csv', 'a') as f_object:
+  
+        writer_object = writer(f_object)
+
+        writer_object.writerow(data)
+
+        f_object.close()
+
+    return "Second image saved"
+            
 
 if __name__ == '__main__':
-  app.run(debug=True, port=3000)
+
+    app.run(debug=True, port=3000)

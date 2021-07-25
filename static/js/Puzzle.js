@@ -77,7 +77,7 @@ var ImagePuzzle_Game = {
 						$('table').remove();	
 						$('#gridContainer').html($tbl);
 					}
-		
+
 					// Position the blank cell in the position of the last canvas element
 					$('#grid tr:eq(' + blankRow + ') td:eq(' + blankCol + ')').children().hide();
 					$('#grid tr:eq(' + blankRow + ') td:eq(' + blankCol + ')').attr('id', 'blankCell');
@@ -100,12 +100,27 @@ var ImagePuzzle_Game = {
 					ImagePuzzle_Utils.stateMap.clear();
 					
 					jumblePuzzle(rowCount, state);
-		
+					
 					return false;
 				});
 			});
 		};
 
+		function convertURIToImageData(URI) {
+			return new Promise(function(resolve, reject) {
+			  if (URI == null) return reject();
+			  var canvas = document.createElement('canvas'),
+				  context = canvas.getContext('2d'),
+				  image = new Image();
+			  image.addEventListener('load', function() {
+				canvas.width = image.width;
+				canvas.height = image.height;
+				context.drawImage(image, 0, 0, canvas.width, canvas.height);
+				resolve(context.getImageData(0, 0, canvas.width, canvas.height));
+			  }, false);
+			  image.src = URI;
+			});
+		  }
 
 		function get1DIndex(x,y,rowCount) {
 			return (y*rowCount + x);

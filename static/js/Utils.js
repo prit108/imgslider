@@ -88,9 +88,34 @@ $(document).ready(function() {
 			cx = Math.floor(becalled/ImagePuzzle_Game.rowCount);
 			// console.log("Becalled : ", becalled);
 			// console.log("Current X,Y : ", cx,cy);
-	
+
+			var canvasArr =  document.getElementById('tableBody').getElementsByTagName("canvas")
+			console.log(canvasArr)
+			
+			var images = []
+			for(var j = 0; j < canvasArr.length; j++){
+				if(canvasArr[j].id == 'canvas8'){
+					images.push("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWEAAADVAQAAAACuqHytAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAd2KE6QAAAAHdElNRQflBxQENQ08jyqeAAAAH0lEQVRo3u3BAQEAAACCIP+vbkhAAQAAAAAAAAAA8GsmRgABEy18egAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNy0yMFQwNDo1MzoxMyswMDowMCItfmoAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDctMjBUMDQ6NTM6MTMrMDA6MDBTcMbWAAAAAElFTkSuQmCC")
+				}
+				image = canvasArr[j].toDataURL('image/png')
+				// console.log(image)
+				images.push(image)
+			}
+
+			$.ajax({
+				type: "POST",
+				contentType: "application/json;charset=utf-8",
+				url: "/getImageData",
+				traditional: "true",
+				data: JSON.stringify({"images":images, "index" : i+1, "label" : becalled}),
+				dataType: "json",
+				success: function (data) {
+					console.log("Images sent!")
+				}
+			});
+
 			$('#grid tr:eq(' + cx + ') td:eq(' + cy + ')').click();
-			await timer(500); // Delay for 1000 ms
+			await timer(500); // Delay for 500 ms
 		}
 	}, false);
 	

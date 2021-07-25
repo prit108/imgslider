@@ -75,12 +75,12 @@ var ImagePuzzle_ImageActions = {
 			}
 	
 			//draw tile numbers
-			ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-			ctx.fillRect(0, 0, imgNumBgSizeWidth, 10);
-			ctx.fillStyle = '#fff';
-			ctx.font = 'italic 10px sans-serif';
-			ctx.textBaseline = 'top';
-			ctx.fillText (i+1, imgNumXOffset, 1);
+			// ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+			// ctx.fillRect(0, 0, imgNumBgSizeWidth, 10);
+			// ctx.fillStyle = '#fff';
+			// ctx.font = 'italic 10px sans-serif';
+			// ctx.textBaseline = 'top';
+			// ctx.fillText (i+1, imgNumXOffset, 1);
 	
             //if i is a multiple of the total number of tiles to a row,
             //move down a column and reset the row_col

@@ -1,4 +1,14 @@
 //var state = new Array();
+let image_url = [
+    "/static/images/stock/scattered_moai.jpg",
+    "/static/images/stock/denmark.jpg",
+    "/static/images/stock/thailand.jpg",
+    "/static/images/stock/looking_at_sunset.jpg",
+    "/static/images/stock/morning_magic.jpg"
+];
+let gridSize = [3, 3, 3, 3, 3];
+let gameDepth = [8, 12, 16, 8, 12];
+
 var ImagePuzzle_Game = {
 
     blankRow: 0,
@@ -9,20 +19,25 @@ var ImagePuzzle_Game = {
     rowCount: null,
     target: null,
     timerIntervalId: 0,
-    move_snd: new Audio("sounds/move1.wav"),
-    shuffle_snd: new Audio("sounds/shuffle1.wav"),
-    win_snd: new Audio("sounds/success1.wav"),
+    move_snd: new Audio("/static/sounds/move1.wav"),
+    shuffle_snd: new Audio("/static/sounds/shuffle1.wav"),
+    win_snd: new Audio("/static/sounds/success1.wav"),
     state: new Array(),
     solnArray: new Array(),
+    gameNum: 0,
 
-    init: function() {
+    init: function(gameCnt) {
 
-        ImagePuzzle_Game.imgsrc = document.getElementById('imageTextfield').value.replace("preview", "stock");
-        ImagePuzzle_Game.rowCount = $('#gridSize :radio:checked').val();
+        ImagePuzzle_Game.gameNum = gameCnt
+        ImagePuzzle_Game.imgsrc = image_url[gameCnt];
+        ImagePuzzle_Game.rowCount = gridSize[gameCnt];
 
         $('#chooseContainer').attr('style', 'display:none');
         $('#gameContainer').attr('style', 'display:inline');
-        $('#restart').attr('style', 'display:block');
+        // no option to restart either finish or giveup
+        //$('#restart').attr('style', 'display:none');
+        $('#giveup').attr('style', 'display:inline');
+        $('#nextpuzzlebtn').attr('style', 'display:none');
 
         newGame(ImagePuzzle_Game.imgsrc, ImagePuzzle_Game.rowCount, ImagePuzzle_Game.state);
 
@@ -240,7 +255,7 @@ var ImagePuzzle_Game = {
 
             var prevDir = null;
 
-            for (var i = 0; i < rowCount * rowCount * 2; i++) {
+            for (var i = 0; i < gameDepth[ImagePuzzle_Game.gameNum]; i++) {
 
                 var empty = $("#blankCell").get(0),
                     emptyrow = empty.parentNode,
@@ -276,6 +291,8 @@ var ImagePuzzle_Game = {
             console.log("Initial State : ", ImagePuzzle_Utils.initstate);
             console.log("Row Count : ", rowCount);
 
+            moves[ImagePuzzle_Game.gameNum].push(str);
+
             $.ajax({
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
@@ -285,11 +302,12 @@ var ImagePuzzle_Game = {
                 dataType: "json",
                 success: function(data) {
                     ImagePuzzle_Game.solnArray = data;
-                    console.log("Solution Array :", ImagePuzzle_Game.solnArray);
+                    //console.log("Solution Array :", ImagePuzzle_Game.solnArray);
                 }
             });
 
-            $('#autosolve').attr('style', 'display:block');
+            // autosolve button is hidden always
+            //$('#autosolve').attr('style', 'display:none');
 
         };
 

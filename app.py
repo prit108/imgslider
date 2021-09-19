@@ -99,13 +99,13 @@ def get_final_var():
     req = request.get_json()
     global user_data, moves, time, retraced, dimension
 
-    moves = req['moves']
-    time = req['time']
-    retraced = req['retraced']
-    dimension = req['dimension']
-    print("Moves",moves)
-    print("",time)
-    print("",retraced)
+    num_moves = req['nummoves']
+    print("Number of Moves", num_moves)
+    elapsed_time = req['elapsedtime']
+    is_solved = req['issolved']
+    moves_list = req['moveslist']
+    print("Elapsed Time",elapsed_time)
+    print("Moves Lists",moves_list)
     handler._update(user_data, moves, time, retraced, dimension)
     return "Received"
 

@@ -9,10 +9,11 @@ from db import helper, handler
 app = Flask(__name__,static_folder='static',template_folder='templates')
 
 user_data = {}
-moves = 0
-time = ""
-retraced = 0
-dimension = 0
+num_moves = []
+elapsed_time = []
+is_solved = []
+moves_list = []
+image_srcs = []
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
@@ -97,16 +98,18 @@ def get_init_state():
 @app.route('/getFinalVar', methods = ['POST'])
 def get_final_var():
     req = request.get_json()
-    global user_data, moves, time, retraced, dimension
+    global user_data, num_moves, elapsed_time, is_solved, moves_list, image_srcs
 
     num_moves = req['nummoves']
     print("Number of Moves", num_moves)
     elapsed_time = req['elapsedtime']
     is_solved = req['issolved']
     moves_list = req['moveslist']
+    image_srcs = req['imagesrc']
     print("Elapsed Time",elapsed_time)
     print("Moves Lists",moves_list)
-    handler._update(user_data, moves, time, retraced, dimension)
+    print("Images, ", image_srcs)
+    handler._update(user_data, num_moves, elapsed_time, is_solved, moves_list, image_srcs)
     return "Received"
 
 @app.route('/success')

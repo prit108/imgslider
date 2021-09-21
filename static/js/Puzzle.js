@@ -1,13 +1,23 @@
 //var state = new Array();
 let image_url = [
-    "/static/images/stock/scattered_moai.jpg",
-    "/static/images/stock/denmark.jpg",
-    "/static/images/stock/thailand.jpg",
-    "/static/images/stock/looking_at_sunset.jpg",
-    "/static/images/stock/morning_magic.jpg"
+    ["/static/images/stock/looking_at_sunset.jpg", ], // Set A part 1
+
+    ["/static/images/stock/thailand.jpg"], // Set A part 2
+
+    ["/static/images/stock/cube.jpg"], // Set A part 1
+
+    ["/static/images/stock/looking_at_sunset.jpg",
+        "/static/images/stock/morning_magic.jpg",
+        "/static/images/stock/seerose.jpg"
+    ], // Set B part 1
+
+    ["/static/images/stock/kaliedo.jpg"], //Set B part 2
+
+    ["/static/images/stock/morning_magic.jpg"] // Set B part 3
+
 ];
-let gridSize = [3, 3, 3, 3, 3];
-let gameDepth = [8, 12, 16, 8, 12];
+let gridSize = [3, 3, 3, 3, 3, 3];
+let gameDepth = [14, 14, 14, 14, 14, 14];
 
 var ImagePuzzle_Game = {
 
@@ -26,29 +36,37 @@ var ImagePuzzle_Game = {
     solnArray: new Array(),
     gameNum: 0,
 
-    init: function(gameCnt) {
+    init: function(gameCnt, set) {
 
         ImagePuzzle_Game.gameNum = gameCnt
-        ImagePuzzle_Game.imgsrc = image_url[gameCnt];
+        ImagePuzzle_Game.imgsrc = image_url[gameCnt][Math.floor(Math.random() * image_url[gameCnt].length)];
         ImagePuzzle_Game.rowCount = gridSize[gameCnt];
-
+        image_shown[gameCnt] = ImagePuzzle_Game.imgsrc;
         $('#chooseContainer').attr('style', 'display:none');
         $('#gameContainer').attr('style', 'display:inline');
         // no option to restart either finish or giveup
         //$('#restart').attr('style', 'display:none');
         $('#giveup').attr('style', 'display:inline');
         $('#nextpuzzlebtn').attr('style', 'display:none');
+        if (set == 2) {
+            $('#nextpuzzlebtn').attr('style', 'display:inline');
+            $('#giveup').attr('style', 'display:inline');
+        }
+        if (set == 2) {
+            $('#refImage').attr('style', 'display:none');
+        } else {
+            $('#refImage').attr('style', 'display:inline');
+        }
+        newGame(ImagePuzzle_Game.imgsrc, ImagePuzzle_Game.rowCount, ImagePuzzle_Game.state, gameCnt);
 
-        newGame(ImagePuzzle_Game.imgsrc, ImagePuzzle_Game.rowCount, ImagePuzzle_Game.state);
 
+        function newGame(imgsrc, rowCount, state, gameCnt) {
 
-        function newGame(imgsrc, rowCount, state) {
-
-            ImagePuzzle_ImageActions.loadImage(imgsrc, function(loadedImage) {
+            ImagePuzzle_ImageActions.loadImage(gameCnt, imgsrc, function(loadedImage) {
 
                 ImagePuzzle_ImageActions.resize(loadedImage, function(imageResizedOnCanvas) {
 
-                    var canvasReady = ImagePuzzle_ImageActions.split(imageResizedOnCanvas, rowCount * rowCount);
+                    var canvasReady = ImagePuzzle_ImageActions.split(imageResizedOnCanvas, rowCount * rowCount, gameCnt);
 
                     state = [];
                     for (var i = 0; i < canvasReady.length; i++) {

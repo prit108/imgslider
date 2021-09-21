@@ -39,8 +39,45 @@
             </div>
 
             <div id="chooseContainer" style="display:none">
-                <h3 class="centerHorizontally">Instructions</h3>
+                <h3 class="centerHorizontally">...</h3>
 
+                <div id="setAIntro" style="display:none">
+                    <h2 class="centerHorizontally">Set A : Instructions</h2>
+                    <p style="font-size: larger;"> <em>*** Recommmended to be taken on Laptop/PC using a Chrome Browser, preferably in Incognito Mode.</em> </p>
+                    <p style="font-size: larger;">1. Welcome to Sliding Image Puzzle Test. This test contains two sets - A & B.<br> Set A is
+                        <underline>COMPULSORY</underline> but Set B is
+                        <underline>OPTIONAL</underline>.</p>
+                    <hr>
+                    <p style="font-size: larger;">2. This is what a single game area looks like. You are given a picture divides into 9 tiles.</p>
+                    <img src="/static/images/assets/gamearea.png" class="centerHorizontally" width="60%">
+                    <p style="font-size: larger;">3. The bottom corner tile is removed and the rest tiles are shuffled. Your goal is to make moves of the tiles to get these to their original position.</p>
+                    <p style="font-size: larger;">4. The original image is provided as a reference on the right side of the game. </p>
+                    <p style="font-size: larger;">5. To make a move, click on any tile that is adjacent to the blank tile. The tile that is clikced will "slide" into the blank position.</p>
+                    <img src="/static/images/assets/gameplay.gif" class="centerHorizontally" width="60%">
+                    <p style="font-size: larger;">6. If you feel like you are stuck there is a <b>Give-Up</b> button on the top-right corner of the game area. <br> Once you finish a puzzle, the removed tile will be shown and a <b>NEXT</b> button will appear at the bottom of the game
+                        area. Click the button to take you to the next puzzle.</p>
+                    <p style="font-size: larger;">7. Click the <b>Play Game</b> button below to start the game.</p>
+                    <p style="font-size: larger;">Can you finish fastest with least moves possible ? Best of Luck !!</p>
+                </div>
+                <div id="askB" style="display:none">
+                    <h3 class="centerHorizontally">Completed Set A!!</h3>
+                    <h2>You have completed Set A puzzles. Was this too easy for you ?? Try the Set B...</h2>
+                    <button id="passSetB" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-delete ui-btn-icon-left">I'll Pass.</button>
+                    <button id="gotoSetB" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-btn-icon-left ui-icon-check">Bring It On.</button>
+                </div>
+                <div id="setBIntro" style="display:none">
+                    <h2 class="centerHorizontally">Set B : Instructions</h2>
+                    <p style="font-size: larger;"> <em>*** Recommmended to be taken on Laptop/PC using a Chrome Browser, preferably in Incognito Mode.</em> </p>
+                    <p style="font-size: larger;">1. Are you ready for a challenge ?</p>
+                    <hr>
+                    <p style="font-size: larger;">2. Unlike Set A the reference image will not be shown in this case. You have to use your best judgement as to the correct position of the tiles.</p>
+                    <p style="font-size: larger;">3. There may be more than one correct configurations. So whenever you feel you have reached the correct postion according to your discretion you may click the finish game button.</p>
+                    <p style="font-size: larger;">4. To make a move, click on any tile that is adjacent to the blank tile. The tile that is clikced will "slide" into the blank position.</p>
+                    <hr>
+                    <p style="font-size: larger;">5. Click the <b>Play Game</b> button below to start the game.</p>
+                    <p style="font-size: larger;">Can you finish fastest with least moves possible ? Best of Luck !!</p>
+
+                </div>
 
                 <ul id="imageSelection" data-role="listview" data-inset="true">
                     <li data-icon="false">
@@ -135,23 +172,23 @@
                     <h1>Moves: <span id="moveCount">0</span>, Time: <span id="timer">00:00.0</span>, Retraced Moves : <span id="retraceCount">0</span></h1>
                 </div>
 
-                <a data-transition="flow" style="display:none" id="playAgainLink" href="#playAgainDialog" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Play again</a>
-                <div data-role="popup" id="playAgainDialog">
+                <a data-transition="flow" style="display:none" id="playAgainLink" href="#playAgainDialog" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Next Level ?</a>
+                <div data-role="popup" data-dismissible="false" id="playAgainDialog">
                     <div data-role="header">
-                        <h1>Solved!</h1>
+                        <h1> Completed Set A</h1>
                     </div>
                     <div data-role="main" class="ui-content centerHorizontally">
-                        <!-- <div>You've solved <span id="puzzlesSolved">0</span> puzzle(s)</div>
-				            <h2>Restart?</h2> -->
-                        <a id="restartButton" href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">Yes</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-btn-icon-left ui-icon-delete" data-rel="back">No</a>
+                        <div>Too easy for you?? Have a go at Level 2...</div>
+                        <h2>Start Level 2</h2>
+                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-delete ui-btn-icon-left" data-rel="back">I'll pass.</a>
+                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-btn-icon-left ui-icon-check" data-rel="back">Bring it on.</a>
                     </div>
                 </div>
             </div>
 
         </div>
         <noscript>
-	            <div id="javascriptDisabled-warning">This game requires Javascript to be enabled</div>
+	            <div id="javascriptDisabled-warning">This platform requires JavaScript to be enabled in your browser.</div>
 	            <style>
 	                #container {
 	                    display: none;

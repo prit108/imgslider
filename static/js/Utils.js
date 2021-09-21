@@ -1,10 +1,12 @@
 /*
 REVAMP TO-DO : 
-    (v)modify game depth for different games
-	(x) add a completion dialog after the give up is pressed or puzzle is solved
-	add a final stats display on the success page
-	add a data structure to capture each of the moves to be made in each of the games in the set
-	add a AJAX request to send mf-key, login details, num_moves, time_elapsed, and moves_list for each game in the set
+    1) add instructions
+        --> Set A and Set B (extensive, clear cut instructions)
+    2) revamp the success page
+	    --> add a final stats display on the success page
+    (partialy done) 3) add new images according to the set A or set B 
+	---> 4)add a data structure to capture each of the moves to be made in each of the games in the set
+	    --> add a AJAX request to send mf-key, login details, num_moves, time_elapsed, and moves_list for each game in the set
 */
 function get1DIndex(x, y, rowCount) {
     return (y * rowCount + x);
@@ -29,12 +31,15 @@ function splitarray(arr, n) {
 
 var onstate = 0;
 var gameCnt = 0;
-const gameSetSize = 5;
+const gameSetSize = 6;
+const SetASize = 3;
+var gotoB = false;
 const moveCntSize = 1000;
 var num_moves = new Array(gameSetSize);
 var elapsed_time = new Array(gameSetSize);
 var solved = new Array(gameSetSize);
 var moves = new Array();
+var image_shown = new Array(gameSetSize);
 for (let i = 0; i < gameSetSize; i++) {
     moves.push([]);
 }
@@ -53,29 +58,77 @@ $(document).ready(function() {
         ImagePuzzle_Utils.loadChooseUI();
         $('#gameContainer').attr('style', 'display:none');
         $('#chooseContainer').attr('style', 'display:inline');
+        $('#setAIntro').attr('style', 'display:inline');
         $('#moveCount').html('0');
         $('#retraceCount').html('0');
         clearInterval(ImagePuzzle_Game.timerIntervalId);
     });
 
     document.getElementById('submit').addEventListener('click', function(event) {
-        ImagePuzzle_Game.init(gameCnt);
+        if (gameCnt < SetASize) {
+            ImagePuzzle_Game.init(gameCnt, 1);
+        } else {
+            ImagePuzzle_Game.init(gameCnt, 2);
+        }
         gameCnt += 1;
 
     }, false);
 
+    document.getElementById('passSetB').addEventListener('click', function(event) {
+        console.log("Not doing Set B");
+        gameCnt = gameSetSize + 2;
+        $("#giveup").click();
+    }, false);
+
+    document.getElementById('gotoSetB').addEventListener('click', function(event) {
+        gotoB = true;
+        $("#giveup").attr('style', 'display:none');
+        $('#gameContainer').attr('style', 'display:none');
+        $("#chooseContainer").attr('style', 'display:inline');
+        $("#setAIntro").attr('style', 'display:none');
+        $("#askB").attr('style', 'display:none');
+        $("#setBIntro").attr('style', 'display:inline');
+        $("#submit").attr('style', 'display:inline');
+    }, false);
+
     document.getElementById('giveup').addEventListener('click', function(event) {
-        solved[gameCnt - 1] = 0;
-        if (gameCnt < gameSetSize) {
+        //solved[gameCnt - 1] = 0;
+        console.log("giveup pressed: ", gameCnt);
+        if (gameCnt < SetASize) {
             num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
             elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
             $('#gameContainer').attr('style', 'display:none');
             $('#moveCount').html('0');
             $('#retraceCount').html('0');
             clearInterval(ImagePuzzle_Game.timerIntervalId);
-            ImagePuzzle_Game.init(gameCnt);
+            /*if (gameCnt == SetASize - 1) {
+                $("playAgainLink").attr('style', 'display:inline');
+            } else {
+               
+            }*/
+            ImagePuzzle_Game.init(gameCnt, 1);
+            gameCnt += 1
+        } else if (gameCnt == SetASize) {
+            num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
+            elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
+            console.log("pop_up_time");
+            $("#giveup").attr('style', 'display:none');
+            $('#gameContainer').attr('style', 'display:none');
+            $("#chooseContainer").attr('style', 'display:inline');
+            $("#setAIntro").attr('style', 'display:none');
+            $("#setBIntro").attr('style', 'display:none');
+            $("#submit").attr('style', 'display:none');
+            $("#askB").attr('style', 'display:inline');
+        } else if (gameCnt < gameSetSize) {
+            num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
+            elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
+            $('#gameContainer').attr('style', 'display:none');
+            $('#moveCount').html('0');
+            $('#retraceCount').html('0');
+            clearInterval(ImagePuzzle_Game.timerIntervalId);
+            ImagePuzzle_Game.init(gameCnt, 2);
             gameCnt += 1;
-        } else { // if all games played proceed to exit screen
+        } else if (gameCnt == gameSetSize) { // if all games played proceed to exit screen
             num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
             elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
 
@@ -91,7 +144,8 @@ $(document).ready(function() {
                     nummoves: num_moves,
                     elapsedtime: elapsed_time,
                     issolved: solved,
-                    moveslist: moves
+                    moveslist: moves,
+                    imagesrc: image_shown
                 }),
             });
 
@@ -104,26 +158,75 @@ $(document).ready(function() {
 
             window.location.href = "/success";
 
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '/getFinalVar',
+                contentType: "application/json;charset=utf-8",
+                traditional: "true",
+                dataType: "json",
+                data: JSON.stringify({
+                    nummoves: num_moves,
+                    elapsedtime: elapsed_time,
+                    issolved: solved,
+                    moveslist: moves,
+                    imagesrc: image_shown
+                }),
+            });
+
+            for (var i = 0; i < gameSetSize; i++) {
+                console.log("moves", i, num_moves[i]);
+                console.log("elapsed_time", i, elapsed_time[i]);
+                console.log("moves_list", i, moves[i]);
+                console.log("is_solved", i, solved[i]);
+            }
+            console.log(window.location);
+            window.location.href = "/success"
+
         }
     }, false);
 
     document.getElementById('nextpuzzlebtn').addEventListener('click', function(event) {
-        solved[gameCnt - 1] = 1;
-        if (gameCnt < gameSetSize) {
+        //solved[gameCnt - 1] = 1;
+        console.log("giveup pressed: ", gameCnt);
+        if (gameCnt < SetASize) {
             num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
             elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
             $('#gameContainer').attr('style', 'display:none');
             $('#moveCount').html('0');
             $('#retraceCount').html('0');
             clearInterval(ImagePuzzle_Game.timerIntervalId);
-            ImagePuzzle_Game.init(gameCnt);
+            /*if (gameCnt == SetASize - 1) {
+                $("playAgainLink").attr('style', 'display:inline');
+            } else {
+               
+            }*/
+            ImagePuzzle_Game.init(gameCnt, 1);
+            gameCnt += 1
+        } else if (gameCnt == SetASize) {
+            num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
+            elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
+            console.log("pop_up_time");
+            $("#giveup").attr('style', 'display:none');
+            $('#gameContainer').attr('style', 'display:none');
+            $("#chooseContainer").attr('style', 'display:inline');
+            $("#setAIntro").attr('style', 'display:none');
+            $("#setBIntro").attr('style', 'display:none');
+            $("#askB").attr('style', 'display:inline');
+        } else if (gameCnt < gameSetSize) {
+            num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
+            elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
+            $('#gameContainer').attr('style', 'display:none');
+            $('#moveCount').html('0');
+            $('#retraceCount').html('0');
+            clearInterval(ImagePuzzle_Game.timerIntervalId);
+            ImagePuzzle_Game.init(gameCnt, 2);
             gameCnt += 1;
         } else { // if all games played proceed to exit screen
             num_moves[gameCnt - 1] = ImagePuzzle_Utils.noOfMoves;
             elapsed_time[gameCnt - 1] = ImagePuzzle_Utils.timetaken;
 
             console.log("completed all games, redirecting to success");
-            $('#nextpuzzlebtn').attr('style', 'display:none');
 
             $.ajax({
                 type: 'POST',
@@ -135,7 +238,8 @@ $(document).ready(function() {
                     nummoves: num_moves,
                     elapsedtime: elapsed_time,
                     issolved: solved,
-                    moveslist: moves
+                    moveslist: moves,
+                    imagesrc: image_shown
                 }),
             });
 
@@ -259,15 +363,14 @@ $(document).ready(function() {
             if ($(this).children().attr("id") == "canvas" + ImagePuzzle_Game.idCounter) {
 
                 ImagePuzzle_Game.score++;
-
-
-                if (ImagePuzzle_Game.score == ImagePuzzle_Game.target) {
+                if (ImagePuzzle_Game.score == ImagePuzzle_Game.target && gameCnt <= SetASize) {
 
                     //show complete image
                     $("#blankCell").children().show();
                     $("#blankCell").attr('id', $("#blankCell").children().attr('id'));
                     $("#giveup").attr('style', 'display:none');
 
+                    solved[gameCnt - 1] = 1;
                     if ($('#mute').val() === "off") {
                         ImagePuzzle_Game.win_snd.play();
                     }
@@ -314,6 +417,8 @@ $(document).ready(function() {
                     // if game is successfully completed, check if required number of games have been played
 
                     $('#nextpuzzlebtn').attr('style', 'display:inline');
+
+
                 }
             }
 

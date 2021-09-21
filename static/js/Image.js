@@ -4,7 +4,7 @@
 
 var ImagePuzzle_ImageActions = {
 
-    loadImage: function(imgsrc, callback) {
+    loadImage: function(gameCnt, imgsrc, callback) {
 
         var img = new Image();
 
@@ -27,8 +27,13 @@ var ImagePuzzle_ImageActions = {
             callback(img);
         };
 
-        document.getElementById("refImgSrc").src = imgsrc;
+        if (gameCnt == 1) {
+            document.getElementById("refImgSrc").src = "/static/images/preview/numbers.png"
+        } else {
+            document.getElementById("refImgSrc").src = imgsrc;
+        }
         img.src = imgsrc;
+
     },
 
     /*
@@ -41,7 +46,7 @@ var ImagePuzzle_ImageActions = {
      * Returns: an Array of canvasElements (Images)            
      *
      */
-    split: function(canvas, tiles) {
+    split: function(canvas, tiles, gameCnt) {
 
         var canvasArray = new Array();
 
@@ -74,14 +79,32 @@ var ImagePuzzle_ImageActions = {
                 imgNumBgSizeWidth = 10;
                 imgNumXOffset = 2;
             }
-
+            var height = 10
+            var size = 10
+            if (gameCnt == 1) {
+                height = tileH
+                imgNumBgSizeWidth = tileW
+                size = 100
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.fillRect(0, 0, tileW, tileH);
+                ctx.fillStyle = '#000';
+                ctx.font = 'italic 100px sans-serif';
+                ctx.textBaseline = 'top';
+                ctx.fillText(i + 1, tileW / 2 - 50, tileH / 2 - 50);
+            } else if (gameCnt == 5) {
+                var numbers = [1, 1, 2, 3, 5, 8, 13, 21, 34];
+                height = tileH
+                imgNumBgSizeWidth = tileW
+                size = 100
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.fillRect(0, 0, tileW, tileH);
+                ctx.fillStyle = '#000';
+                ctx.font = 'italic 100px sans-serif';
+                ctx.textBaseline = 'top';
+                ctx.fillText(numbers[i], tileW / 2 - 75, tileH / 2 - 75);
+            }
             //draw tile numbers
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            ctx.fillRect(0, 0, imgNumBgSizeWidth, 10);
-            ctx.fillStyle = '#fff';
-            ctx.font = 'italic 10px sans-serif';
-            ctx.textBaseline = 'top';
-            ctx.fillText(i + 1, imgNumXOffset, 1);
+
 
             //if i is a multiple of the total number of tiles to a row,
             //move down a column and reset the row_col

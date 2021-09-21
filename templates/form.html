@@ -89,9 +89,18 @@
             margin-bottom: 10px;
         }
         
+        #tnc {
+            width: 10%;
+            margin-left: 31%;
+        }
+        
+        #ltnc {
+            text-align: left;
+            width: 80%
+        }
+        
         select,
         .children,
-        .gender,
         .bdate-block {
             width: calc(100% + 26px);
             padding: 5px 0;
@@ -106,7 +115,7 @@
         }
         
         .gender label {
-            padding: 0 5px 0 0;
+            padding: 0 0 0 0;
         }
         
         .bdate-block {
@@ -191,10 +200,18 @@
                         <div><label>Name*</label><input type="text" name="name" placeholder="Your Name" required></div>
                         <div><label>Email*</label><input type="email" name="email" placeholder="myemail@example.com" required></div>
                         <div><label>Phone*</label><input type="tel" name="phone" pattern="[0-9]{10}" placeholder="1234567890" required></div>
-                        <div><label>Address/Institute*</label><input type="text" name="address" placeholder="Department of CSE, IIT-KGP" required></div>
-                        <div><label>Profession*</label><input type="text" name="profession" placeholder="Your Current Profession" required></div>
-                        <div> <label>Sex*</label> <input type="text" name="gender" pattern="([Ff][eE])?[mM][aA][lL][eE]" placeholder="Male/Female" required></div>
+                        <div><label>Department/Institute*</label><input type="text" name="address" placeholder="Department of CSE, IIT-KGP" required></div>
+                        <div><label>Profession/Current Educational Level*</label><input type="text" name="profession" placeholder="Your Current Profession, if Student please specify current educational level" required></div>
+                        <!--<div> <label>Sex*</label> <input type="radio" name="gender" id="m_sex" value="Male" required><label for="m_sex">Male</label> <input type="radio" id="f_sex" name="gender" value="Female" required><label for="f_sex">Female</label></div> -->
+                        <div>
+                            <label>Sex*</label>
+                            <select name="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
                         <div><label>Age*</label><input type="number" name="age" min="12" max="110" placeholder="Your Age" required></div>
+                        <div><input type="checkbox" id="tnc" name="consent" required><label for="tnc" id="ltnc">The information you share with us and other details about your game play performance will be used for purpose of <b>educational research</b> purposes only. By ticking this checkbox, you consent to usage of said information</label></div>
                         <!-- <div>
               <label>Country*</label>  
               <select>
@@ -280,6 +297,9 @@
             <input type="checkbox" name="checkbox"><span>I want to recelve personallzed offers by your site</span>
           </div>
       </fieldset> -->
+    <div>
+        *** Recommended to be used on Laptop/PC/Other broad screen devices using Chrome Browser preferably in Incognito Mode.
+    </div>
     <button type="submit">Submit</button>
     </form>
     </div>

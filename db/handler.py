@@ -24,6 +24,6 @@ def _retrieve(data):
 
     return user
 
-def _update(data, moves, time, retraced, dimension):
+def _update(data, num_moves, elapsed_time, is_solved, moves_list, image_srcs):
     global db, key
-    db.child(data['Profession'].lower()).child(key).update({'Moves' : moves, 'Time taken' : time, 'Retraced Moves' : retraced, 'Dimension' : dimension})
+    db.child(data['Profession'].lower()).child(key).update({'NumMoves' : num_moves, 'Elapsed Time' : elapsed_time, 'Is Solved' : is_solved, 'Moves List' : moves_list, 'Image Sources' : image_srcs})

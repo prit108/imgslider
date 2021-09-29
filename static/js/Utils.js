@@ -322,8 +322,12 @@ $(document).ready(function() {
             [ImagePuzzle_Utils.initstate[get1DIndex(cx, cy, ImagePuzzle_Game.rowCount)], ImagePuzzle_Utils.initstate[get1DIndex(ex, ey, ImagePuzzle_Game.rowCount)]] = [ImagePuzzle_Utils.initstate[get1DIndex(ex, ey, ImagePuzzle_Game.rowCount)], ImagePuzzle_Utils.initstate[get1DIndex(cx, cy, ImagePuzzle_Game.rowCount)]];
             console.log(ImagePuzzle_Utils.initstate);
 
+            var endTime = new Date(),
+                duration = ImagePuzzle_Utils.diffBetweenTimes(
+                    ImagePuzzle_Utils.getStartTime(),
+                    endTime);
 
-            var str = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate);
+            var str = ImagePuzzle_Utils.statetoString(ImagePuzzle_Utils.initstate) + " ### " + duration;
             moves[ImagePuzzle_Game.gameNum].push(str);
             console.log("statestr:", str);
 

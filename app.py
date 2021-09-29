@@ -109,11 +109,13 @@ def get_final_var():
     print("Elapsed Time",elapsed_time)
     print("Moves Lists",moves_list)
     print("Images, ", image_srcs)
-    handler._update(user_data, num_moves, elapsed_time, is_solved, moves_list, image_srcs)
+    ## handler._update(user_data, num_moves, elapsed_time, is_solved, moves_list, image_srcs)
     return "Received"
 
 @app.route('/success')
 def success():
+    global user_data, num_moves, elapsed_time, is_solved, moves_list, image_srcs
+    handler._update(user_data, num_moves, elapsed_time, is_solved, moves_list, image_srcs)
     return render_template('success.html')
          
 

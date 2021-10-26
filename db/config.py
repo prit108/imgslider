@@ -1,4 +1,14 @@
-
+firebaseConfig = {
+  "apiKey": "AIzaSyD9rYdzFJ7d7F8N-Z2wLqEaih4UF6csQG4",
+  "authDomain": "viscogtest.firebaseapp.com",
+  "databaseURL": "https://viscogtest-default-rtdb.firebaseio.com/",
+  "projectId": "viscogtest",
+  "storageBucket": "viscogtest.appspot.com",
+  "messagingSenderId": "723511130450",
+  "appId": "1:723511130450:web:e670ddf348ba6aa958628b",
+  "measurementId": "G-NNYJY3GG8W"
+}
+"""
 firebaseConfig = {
   "apiKey": "AIzaSyCISlNW-FBRgMsS7Bo7FtrZH6miVdCKznY",
   "authDomain": "revamp-73d6f.firebaseapp.com",
@@ -9,7 +19,6 @@ firebaseConfig = {
   "appId": "1:631260635785:web:a950f4caf0c05c586e9c58",
   "measurementId": "G-850KEPW4BR"
 }
-"""
 firebaseConfig = {
     "apiKey": "AIzaSyBUMEhBp1459KOxbpL8iyYC1Ifzt6P1_80",
     "authDomain": "imgslider-fd334.firebaseapp.com",
